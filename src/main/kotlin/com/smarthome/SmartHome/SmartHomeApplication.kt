@@ -1,16 +1,48 @@
 package com.smarthome.SmartHome
 
+import com.corundumstudio.socketio.Configuration
+import com.corundumstudio.socketio.SocketConfig
+import com.corundumstudio.socketio.SocketIOServer
+import com.google.gson.GsonBuilder
+import com.pi4j.io.gpio.GpioController
 import com.pi4j.io.gpio.GpioFactory
+import com.pi4j.io.gpio.RaspiGpioProvider
+import com.pi4j.io.gpio.RaspiPinNumberingScheme
 import com.smarthome.SmartHome.dhtxx.DHT22
 import com.smarthome.SmartHome.model.DHT22Type.*
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
 class SmartHomeApplication {
+    @Value("\${socketIO.hostname}")
+    private val socketIOHostname: String? = null
+
+    @Value("\${socketIO.port}")
+    private val socketIOPort: Int? = null
+
     @Bean
-    fun provideGpioFactory() = GpioFactory.getInstance()
+    fun socketIOServer(): SocketIOServer {
+        val configuration = Configuration()
+        configuration.hostname = socketIOHostname
+
+        val socketConfig = SocketConfig()
+        socketConfig.isReuseAddress = true
+        configuration.pingInterval = 1000
+        configuration.pingTimeout = 5000
+        configuration.socketConfig = socketConfig
+
+        configuration.port = socketIOPort!!.toInt()
+        return SocketIOServer(configuration)
+    }
+
+    @Bean
+    fun provideGpioFactory(): GpioController {
+        GpioFactory.setDefaultProvider(RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+        return GpioFactory.getInstance()
+    }
 
     @Bean
     fun provideSensorsMap() = mapOf(
@@ -18,6 +50,12 @@ class SmartHomeApplication {
             SENSOR_LIVING_ROOM to DHT22(SENSOR_LIVING_ROOM.gpioPin),
             SENSOR_BEDROOM to DHT22(SENSOR_BEDROOM.gpioPin),
             SENSOR_OUTDOOR to DHT22(SENSOR_OUTDOOR.gpioPin))
+
+    @Bean
+    fun provideGSON() =
+            GsonBuilder()
+                    .setLenient()
+                    .create()
 }
 
 fun main(args: Array<String>) {

@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.pi4j</groupId>
             <artifactId>pi4j-core</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.1</version>
         </dependency>
 
         <dependency>
@@ -55,6 +55,18 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>2.9.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+            <version>1.7.11</version>
         </dependency>
 
         <dependency>
