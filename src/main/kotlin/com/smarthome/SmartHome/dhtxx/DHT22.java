@@ -1,7 +1,6 @@
 package com.smarthome.SmartHome.dhtxx;
 
 import com.pi4j.io.gpio.Pin;
-import com.pi4j.wiringpi.Gpio;
 
 public class DHT22 extends DHTxxBase {
 
@@ -35,12 +34,12 @@ public class DHT22 extends DHTxxBase {
 
         return new DhtData(temperature, humidity);
       } catch (Exception e) {
-        atempts++;
+        /*atempts++;
         if (atempts <= 3) {
           Gpio.delay(DHT_WAIT_INTERVAL);
           continue;
         }
-        throw new Exception("Atempts " + atempts, e);
+        throw new Exception("Atempts " + atempts, e);*/
       }
     }
   }

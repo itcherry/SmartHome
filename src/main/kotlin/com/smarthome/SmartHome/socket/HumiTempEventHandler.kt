@@ -14,9 +14,7 @@ import com.smarthome.SmartHome.service.HumiTempService
 import com.smarthome.SmartHome.service.PinService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
-import java.util.concurrent.TimeUnit
+import java.util.*
 
 
 const val NAMESPACE = "/raspberry"
@@ -31,7 +29,7 @@ class HumiTempEventHandler @Autowired constructor(socketIOServer: SocketIOServer
                                                   private val gpio: GpioController) {
 
     private val namespace: SocketIONamespace = socketIOServer.addNamespace(NAMESPACE)
-    private var scheduler: ScheduledExecutorService? = null
+    private var timer: Timer? = null
 
     init {
         this.namespace.addConnectListener(onConnected())
@@ -42,8 +40,8 @@ class HumiTempEventHandler @Autowired constructor(socketIOServer: SocketIOServer
     private fun onConnected() = ConnectListener { client ->
         println("Client connected! " + client.handshakeData.address)
         if (namespace.allClients.size == 1) {
-            scheduler = Executors.newScheduledThreadPool(1)
-            scheduler?.scheduleAtFixedRate(getTemperatureRunnable(), 0, 2030, TimeUnit.MILLISECONDS)
+            timer = Timer("timer")
+            timer?.scheduleAtFixedRate(getTemperatureTimerTask(), 0L, 500)
             println("Temperature scheduler started")
         }
     }
@@ -51,15 +49,18 @@ class HumiTempEventHandler @Autowired constructor(socketIOServer: SocketIOServer
     private fun onDisconnected() = DisconnectListener { client ->
         println("Client disconnected! " + client.handshakeData.address)
         if (namespace.allClients.isEmpty()) {
-            scheduler?.shutdownNow()
+            timer?.cancel()
             println("Temperature scheduler finished his work")
         }
     }
 
-    private fun getTemperatureRunnable(): () -> Unit = {
-        val data = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_KITCHEN))
-        namespace.broadcastOperations.sendEvent(HUMIDITY_TEMPERATURE_EVENT, data)
-    }
+    private fun getTemperatureTimerTask() =
+            object: TimerTask() {
+                override fun run() {
+                    val data = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_KITCHEN))
+                    namespace.broadcastOperations.sendEvent(HUMIDITY_TEMPERATURE_EVENT, data)
+                }
+            }
 
     private fun setLightsListener() =
             DataListener<LightsDTO> { client, data, _ ->
