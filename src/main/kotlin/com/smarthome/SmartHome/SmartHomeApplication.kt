@@ -31,6 +31,7 @@ class SmartHomeApplication {
         val socketConfig = SocketConfig()
         socketConfig.isReuseAddress = true
         configuration.pingInterval = 1000
+        /*configuration.setTransports(Transport.WEBSOCKET)*/
         configuration.pingTimeout = 5000
         configuration.socketConfig = socketConfig
 
