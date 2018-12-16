@@ -7,17 +7,17 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/kitchen")
+@RequestMapping(KITCHEN_VALUE)
 class KitchenController @Autowired constructor(
         private val pinService: PinService
 ){
-    @RequestMapping(method = [(RequestMethod.PUT)],value = ["/light"])
+    @RequestMapping(method = [(RequestMethod.PUT)],value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun setLightState(@RequestParam("isEnable") isEnable: Boolean){
+    fun setLightState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean){
         pinService.setSensor(SensorToPin.KITCHEN_LIGHT_OUTPUT, isEnable)
     }
 
-    @RequestMapping(method = [(RequestMethod.GET)],value = ["/light"])
+    @RequestMapping(method = [(RequestMethod.GET)],value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
     fun getLightState() = pinService.getSensor(SensorToPin.KITCHEN_LIGHT_INPUT)
 }

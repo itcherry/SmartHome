@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/alarm")
+@RequestMapping(ALARM_VALUE)
 class AlarmController @Autowired constructor(
         private val pinService: PinService
 ){
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
-    fun setAlarmState(@RequestParam("isEnable") isEnable: Boolean){
+    fun setAlarmState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean){
         pinService.setSensor(SensorToPin.ALARM_OUTPUT, isEnable)
     }
 

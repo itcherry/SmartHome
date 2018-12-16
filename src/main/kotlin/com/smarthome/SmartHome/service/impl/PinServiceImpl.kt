@@ -42,7 +42,7 @@ class PinServiceImpl @Autowired constructor(
             pin.setState(isEnabled)
 
             val enabledStr = if (isEnabled) "enabled" else "disabled"
-            println("Pin $pinId $enabledStr!")
+            println("Set Pin $pinId = $enabledStr!")
         }
     }
 
@@ -55,6 +55,8 @@ class PinServiceImpl @Autowired constructor(
                 gpio.provisionDigitalInputPin(raspiPin)
             }
             val pinState = pin.state
+            println("Get Pin $pinId = ${pin.isHigh}!")
+
             return pin.isHigh
         }
         throw RuntimeException("Pin $raspiPin is null. Can't get pin state")
@@ -85,6 +87,8 @@ class PinServiceImpl @Autowired constructor(
                 gpio.provisionDigitalOutputPin(raspiPin)
             }
             val pinState = pin.state
+            println("Get Pin $pinId = ${pin.isHigh}!")
+
             return pin.isHigh
         }
         throw RuntimeException("Pin $raspiPin is null. Can't get pin state")

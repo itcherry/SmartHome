@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/door")
+@RequestMapping(DOOR_VALUE)
 class DoorController @Autowired constructor(
         private val pinService: PinService
 ){
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
-    fun setDoorState(@RequestParam("doOpen") doOpen: Boolean){
+    fun setDoorState(@RequestParam(DO_OPEN_FIELD) doOpen: Boolean){
         pinService.setSensor(SensorToPin.DOOR_OUTPUT, doOpen)
     }
 

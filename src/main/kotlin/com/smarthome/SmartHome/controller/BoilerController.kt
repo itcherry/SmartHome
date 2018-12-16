@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/boiler")
+@RequestMapping(BOILER_VALUE)
 class BoilerController @Autowired constructor(
         private val pinService: PinService
 ){
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
-    fun setBoilerState(@RequestParam("isEnabled") isEnabled: Boolean){
+    fun setBoilerState(@RequestParam(IS_ENABLE_FIELD) isEnabled: Boolean){
         pinService.setSensor(SensorToPin.BOILER_OUTPUT, isEnabled)
     }
 

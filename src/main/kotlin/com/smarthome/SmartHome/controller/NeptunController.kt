@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/neptun")
+@RequestMapping(NEPTUN_VALUE)
 class NeptunController @Autowired constructor(
         private val pinService: PinService
 ){
-    @RequestMapping(method = [(RequestMethod.GET)],value = ["/sensor"])
+    @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
     fun getNeptunState() = pinService.getSensor(SensorToPin.NEPTUN_INPUT)
 }

@@ -7,17 +7,17 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/living-room")
+@RequestMapping(LIVING_ROOM_VALUE)
 class LivingRoomController @Autowired constructor(
         private val pinService: PinService
 ){
-    @RequestMapping(method = [(RequestMethod.PUT)],value = ["/rozetka"])
+    @RequestMapping(method = [(RequestMethod.PUT)],value = [ROZETKA_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun setRozetkaState(@RequestParam("isEnable") isEnable: Boolean){
+    fun setRozetkaState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean){
         pinService.setSensor(SensorToPin.LIVING_ROOM_ROZETKA_OUTPUT, isEnable)
     }
 
-    @RequestMapping(method = [(RequestMethod.GET)],value = ["/rozetka"])
+    @RequestMapping(method = [(RequestMethod.GET)],value = [ROZETKA_VALUE])
     @ResponseStatus(HttpStatus.OK)
     fun getRozetkaState() = pinService.getOutSensor(SensorToPin.LIVING_ROOM_ROZETKA_OUTPUT)
 }
