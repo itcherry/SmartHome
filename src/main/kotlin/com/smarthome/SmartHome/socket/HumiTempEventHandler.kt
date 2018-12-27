@@ -13,8 +13,10 @@ import java.util.*
 
 
 const val NAMESPACE = "/raspberry"
-const val HUMIDITY_TEMPERATURE_EVENT = "tempHum"
-const val LIGHTS_EVENT = "light"
+const val TEMP_HUM_BEDROOM_EVENT = "tempHumBedroom"
+const val TEMP_HUM_KITCHEN_EVENT = "tempHumKitchen"
+const val TEMP_HUM_LIVING_ROOM_EVENT = "tempHumLivingRoom"
+const val TEMP_HUM_OUTDOOR_EVENT = "tempHumOutdoor"
 
 @Component
 class HumiTempEventHandler @Autowired constructor(socketIOServer: SocketIOServer,
@@ -49,8 +51,17 @@ class HumiTempEventHandler @Autowired constructor(socketIOServer: SocketIOServer
     private fun getTemperatureTimerTask() =
             object: TimerTask() {
                 override fun run() {
-                    val data = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_KITCHEN))
-                    namespace.broadcastOperations.sendEvent(HUMIDITY_TEMPERATURE_EVENT, data)
+                    val dataKitchen = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_KITCHEN))
+                    namespace.broadcastOperations.sendEvent(TEMP_HUM_KITCHEN_EVENT, dataKitchen)
+
+                    val dataBedroom = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_BEDROOM))
+                    namespace.broadcastOperations.sendEvent(TEMP_HUM_BEDROOM_EVENT, dataBedroom)
+
+                    val dataLivingRoom = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_LIVING_ROOM))
+                    namespace.broadcastOperations.sendEvent(TEMP_HUM_LIVING_ROOM_EVENT, dataLivingRoom)
+
+                    val dataOutdoor = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_OUTDOOR))
+                    namespace.broadcastOperations.sendEvent(TEMP_HUM_OUTDOOR_EVENT, dataOutdoor)
                 }
             }
 }
