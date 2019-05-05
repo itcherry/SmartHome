@@ -1,9 +1,8 @@
 package com.smarthome.SmartHome.model
 
-import com.pi4j.io.gpio.Pin
 import com.pi4j.io.gpio.RaspiPin
 
-enum class Pin(val pinId: Int, private val raspiPin: Pin) {
+enum class Pin(val pinId: Int, private val raspiPin: com.pi4j.io.gpio.Pin) {
     GPIO_0(0, RaspiPin.GPIO_00),
     GPIO_01(1, RaspiPin.GPIO_01),
     GPIO_02(2, RaspiPin.GPIO_02),
@@ -36,8 +35,8 @@ enum class Pin(val pinId: Int, private val raspiPin: Pin) {
     GPIO_29(29, RaspiPin.GPIO_29);
 
     companion object {
-        fun getRaspiPinById(id: Int): Pin? {
-            Pin.values().forEach {
+        fun getRaspiPinById(id: Int): com.pi4j.io.gpio.Pin? {
+            values().forEach {
                 if (id == it.pinId) return it.raspiPin
             }
             return null
