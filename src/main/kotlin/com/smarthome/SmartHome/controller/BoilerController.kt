@@ -1,5 +1,6 @@
 package com.smarthome.SmartHome.controller
 
+import com.smarthome.SmartHome.controller.model.ResponseBody
 import com.smarthome.SmartHome.model.SensorToPin
 import com.smarthome.SmartHome.service.PinService
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,5 +20,5 @@ class BoilerController @Autowired constructor(
 
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
-    fun getBoilerState() = pinService.getOutSensor(SensorToPin.BOILER_OUTPUT)
+    fun getBoilerState() =  ResponseBody(ResponseBody.SUCCESS, null, pinService.getOutSensor(SensorToPin.BOILER_OUTPUT))
 }

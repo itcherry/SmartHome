@@ -1,4 +1,4 @@
-package com.smarthome.SmartHome.model;
+package com.smarthome.SmartHome.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 

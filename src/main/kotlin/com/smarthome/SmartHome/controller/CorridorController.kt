@@ -1,5 +1,6 @@
 package com.smarthome.SmartHome.controller
 
+import com.smarthome.SmartHome.controller.model.ResponseBody
 import com.smarthome.SmartHome.model.SensorToPin
 import com.smarthome.SmartHome.service.PinService
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,14 +11,14 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(CORRIDOR_VALUE)
 class CorridorController @Autowired constructor(
         private val pinService: PinService
-){
-    @RequestMapping(method = [(RequestMethod.PUT)],value = [LIGHT_VALUE])
+) {
+    @RequestMapping(method = [(RequestMethod.PUT)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun setLightState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean){
+    fun setLightState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
         pinService.setSensor(SensorToPin.CORRIDOR_LIGHT_OUTPUT, isEnable)
     }
 
-    @RequestMapping(method = [(RequestMethod.GET)],value = [LIGHT_VALUE])
+    @RequestMapping(method = [(RequestMethod.GET)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun getLightState() = pinService.getSensor(SensorToPin.CORRIDOR_LIGHT_INPUT)
+    fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getSensor(SensorToPin.CORRIDOR_LIGHT_INPUT))
 }

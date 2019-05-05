@@ -1,5 +1,6 @@
 package com.smarthome.SmartHome.controller
 
+import com.smarthome.SmartHome.controller.model.ResponseBody
 import com.smarthome.SmartHome.model.SensorToPin
 import com.smarthome.SmartHome.service.PinService
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,14 +11,14 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(ALARM_VALUE)
 class AlarmController @Autowired constructor(
         private val pinService: PinService
-){
+) {
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
-    fun setAlarmState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean){
+    fun setAlarmState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
         pinService.setSensor(SensorToPin.ALARM_OUTPUT, isEnable)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
-    fun getAlarmState() = pinService.getOutSensor(SensorToPin.ALARM_OUTPUT)
+    fun getAlarmState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getOutSensor(SensorToPin.ALARM_OUTPUT))
 }

@@ -1,9 +1,12 @@
-package com.smarthome.SmartHome.model;
+package com.smarthome.SmartHome.controller.model;
 
 
 import com.smarthome.SmartHome.error.CustomError;
 
 public class ResponseBody<T>{
+    public static final String SUCCESS = "success";
+    public static final String ERROR = "error";
+
     private String status;
     private CustomError error;
     private T data;
