@@ -5,7 +5,8 @@ public enum  AuthenticationError implements ApiError {
     EXPIRED_JWT_TOKEN(402, ErrorMessages.EXPIRED_JWT_TOKEN),
     UNSUPPORTED_JWT_TOKEN(403, ErrorMessages.UNSUPPORTED_JWT_TOKEN),
     EMPTY_JWT_TOKEN(404, ErrorMessages.EMPTY_JWT_TOKEN),
-    ACCESS_DENIED(405, ErrorMessages.ACCESS_DENIED);
+    ACCESS_DENIED(405, ErrorMessages.ACCESS_DENIED),
+    NO_SUCH_USER(406, ErrorMessages.NO_SUCH_USER);
 
     private int errorCode;
     private String errorMessage;

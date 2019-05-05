@@ -15,3 +15,6 @@ const val BEDROOM_VALUE = "/bedroom"
 const val LIVING_ROOM_VALUE = "/living-room"
 const val KITCHEN_VALUE = "/kitchen"
 const val CORRIDOR_VALUE = "/corridor"
+
+const val USER_VALUE = "/user"
+const val ALL_MASK = "/**"

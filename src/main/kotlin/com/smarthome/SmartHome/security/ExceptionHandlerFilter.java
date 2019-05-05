@@ -1,8 +1,9 @@
-package com.smarthome.SmartHome.error;
+package com.smarthome.SmartHome.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smarthome.SmartHome.controller.model.ResponseBody;
+import com.smarthome.SmartHome.error.CustomError;
 import com.smarthome.SmartHome.exception.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

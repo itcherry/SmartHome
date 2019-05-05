@@ -13,4 +13,7 @@ public interface ErrorMessages {
     String EXPIRED_JWT_TOKEN = "Expired JWT token";
     String INVALID_JWT_TOKEN = "Invalid JWT token";
     String ACCESS_DENIED = "You are not allowed to do this!";
+
+    String NO_SUCH_USER = "No such user!!!";
+
 }
