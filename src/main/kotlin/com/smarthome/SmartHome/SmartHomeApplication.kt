@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Primary
 import org.springframework.context.support.ConversionServiceFactoryBean
 import org.springframework.core.convert.ConversionService
 import org.springframework.core.convert.converter.Converter
@@ -53,6 +54,7 @@ class SmartHomeApplication {
     }
 
     @Bean(name = ["APIConversionService"])
+    @Primary
     fun getConversionService(): ConversionService? {
         val bean = ConversionServiceFactoryBean()
         val converters = HashSet<Converter<*, *>>()
