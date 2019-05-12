@@ -1,7 +1,8 @@
 package com.smarthome.SmartHome.error;
 
 public enum FcmError implements ApiError  {
-    CANT_SEND_MESSAGE_NOTIFICATION(151, ErrorMessages.CANT_SEND_MESSAGE_NOTIFICATION);
+    CANT_SEND_MESSAGE_NOTIFICATION(151, ErrorMessages.CANT_SEND_MESSAGE_NOTIFICATION),
+    EMPTY_FCM_TOKEN(152, ErrorMessages.EMPTY_FCM_TOKEN);
 
     private int errorCode;
     private String errorMessage;

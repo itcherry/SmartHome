@@ -1,40 +1,36 @@
 package com.smarthome.SmartHome.security;
 
-import com.hedbanz.hedbanzAPI.entity.User;
+import com.smarthome.SmartHome.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
     private Long id;
     private String login;
     private String password;
-    private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String login, String password, String email, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String login, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.email = email;
         this.authorities = authorities;
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
-                new SimpleGrantedAuthority(role.getName().name())
-        ).collect(Collectors.toList());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("Admin"));
 
         return new UserPrincipal(
-                user.getUserId(),
+                user.getId(),
                 user.getLogin(),
                 user.getPassword(),
-                user.getEmail(),
                 authorities
         );
     }
@@ -58,9 +54,6 @@ public class UserPrincipal implements UserDetails {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

@@ -8,13 +8,22 @@ import com.pi4j.io.gpio.GpioController
 import com.pi4j.io.gpio.GpioFactory
 import com.pi4j.io.gpio.RaspiGpioProvider
 import com.pi4j.io.gpio.RaspiPinNumberingScheme
+import com.smarthome.SmartHome.converter.UserToUserDtoConverter
 import com.smarthome.SmartHome.dhtxx.DHT22
 import com.smarthome.SmartHome.model.DHT22Type.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.support.ConversionServiceFactoryBean
+import org.springframework.core.convert.ConversionService
+import org.springframework.core.convert.converter.Converter
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import org.springframework.scheduling.annotation.EnableAsync
+import java.util.HashSet
 
+@EnableJpaAuditing
+@EnableAsync
 @SpringBootApplication
 class SmartHomeApplication {
     @Value("\${socketIO.hostname}")
@@ -36,6 +45,24 @@ class SmartHomeApplication {
 
         configuration.port = socketIOPort!!.toInt()
         return SocketIOServer(configuration)
+    }
+
+    @Bean
+    fun userToUserDtoConverter(): UserToUserDtoConverter {
+        return UserToUserDtoConverter()
+    }
+
+    @Bean(name = ["APIConversionService"])
+    fun getConversionService(): ConversionService? {
+        val bean = ConversionServiceFactoryBean()
+        val converters = HashSet<Converter<*, *>>()
+
+        //add the converter
+        converters.add(userToUserDtoConverter())
+
+        bean.setConverters(converters)
+        bean.afterPropertiesSet()
+        return bean.getObject()
     }
 
     @Bean

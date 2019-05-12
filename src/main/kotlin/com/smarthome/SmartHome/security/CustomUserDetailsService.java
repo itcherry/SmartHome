@@ -1,13 +1,17 @@
 package com.smarthome.SmartHome.security;
 
+import com.smarthome.SmartHome.entity.User;
 import com.smarthome.SmartHome.error.AuthenticationError;
 import com.smarthome.SmartHome.exception.ExceptionFactory;
+import com.smarthome.SmartHome.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
@@ -17,9 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByEmailOrLogin(s, s);
+        User user = userRepository.findUserByLogin(s);
         if (user == null)
-           throw ExceptionFactory.create(AuthenticationError.NO_SUCH_USER);
+            throw ExceptionFactory.create(AuthenticationError.NO_SUCH_USER);
 
 
         return UserPrincipal.create(user);
@@ -27,10 +31,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Transactional
     public UserDetails loadUserById(Long id) {
-        User user = userRepository.findOne(id);
-        if (user == null)
+        Optional<User> userOptional = userRepository.findById(id);
+        if (!userOptional.isPresent()) {
             throw ExceptionFactory.create(AuthenticationError.NO_SUCH_USER);
-
-        return UserPrincipal.create(user);
+        } else {
+            return UserPrincipal.create(userOptional.get());
+        }
     }
 }
