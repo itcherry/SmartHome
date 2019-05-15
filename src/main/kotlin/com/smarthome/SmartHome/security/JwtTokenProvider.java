@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -22,9 +25,10 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private long jwtExpirationInMs;
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication) throws UnsupportedEncodingException {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Claims claims = Jwts.claims().setSubject(Long.toString(userPrincipal.getId()));
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -33,7 +37,7 @@ public class JwtTokenProvider {
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(SignatureAlgorithm.HS256, jwtSecret.getBytes("UTF-8"))
                 .compact();
     }
 

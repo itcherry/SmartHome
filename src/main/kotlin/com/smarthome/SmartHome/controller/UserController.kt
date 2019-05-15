@@ -12,6 +12,8 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCrypt
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -38,6 +40,6 @@ class UserController @Autowired constructor(
         val resultUserDto: UserDto = conversionService.convert(user, UserDto::class.java)!!
         val jwt = tokenProvider.generateToken(authentication)
 
-        return ResponseBody(SUCCESS, null, resultUserDto.copy(jwtToken = jwt))
+        return ResponseBody(SUCCESS, null, resultUserDto.copy(password = "", securityToken = jwt))
     }
 }
