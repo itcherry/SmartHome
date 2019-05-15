@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service
 
 @Service
 class PinServiceImpl @Autowired constructor(
-        private val gpio: GpioController
+       // private val gpio: GpioController
 ) : PinService {
     override fun pulsePin(pinId: Int) {
         val raspiPin = Pin.getRaspiPinById(pinId)
         raspiPin?.let {
-            val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
+            /*val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
                 gpio.getProvisionedPin(raspiPin) as GpioPinDigitalOutput
             } else {
                 gpio.provisionDigitalOutputPin(raspiPin)
             }
 
-            pin.pulse(100, true)
+            pin.pulse(100, true)*/
 
             println("Pin $pinId pulse for 0.1 sec")
         }
@@ -33,13 +33,13 @@ class PinServiceImpl @Autowired constructor(
     override fun setPin(pinId: Int, isEnabled: Boolean) {
         val raspiPin = Pin.getRaspiPinById(pinId)
         raspiPin?.let {
-            val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
+            /*val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
                 gpio.getProvisionedPin(raspiPin) as GpioPinDigitalOutput
             } else {
                 gpio.provisionDigitalOutputPin(raspiPin)
             }
 
-            pin.setState(isEnabled)
+            pin.setState(isEnabled)*/
 
             val enabledStr = if (isEnabled) "enabled" else "disabled"
             println("Set Pin $pinId = $enabledStr!")
@@ -49,7 +49,7 @@ class PinServiceImpl @Autowired constructor(
     override fun getPin(pinId: Int): Boolean {
         val raspiPin = Pin.getRaspiPinById(pinId)
         raspiPin?.let {
-            val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
+           /* val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
                 gpio.getProvisionedPin(raspiPin) as GpioPinDigitalInput
             } else {
                 gpio.provisionDigitalInputPin(raspiPin)
@@ -57,7 +57,7 @@ class PinServiceImpl @Autowired constructor(
             val pinState = pin.state
             println("Get Pin $pinId = ${pin.isHigh}!")
 
-            return pin.isHigh
+            return pin.isHigh*/
         }
         throw RuntimeException("Pin $raspiPin is null. Can't get pin state")
     }
@@ -81,7 +81,7 @@ class PinServiceImpl @Autowired constructor(
     override fun getOutPin(pinId: Int): Boolean {
         val raspiPin = Pin.getRaspiPinById(pinId)
         raspiPin?.let {
-            val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
+            /*val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
                 gpio.getProvisionedPin(raspiPin) as GpioPinDigitalOutput
             } else {
                 gpio.provisionDigitalOutputPin(raspiPin)
@@ -89,7 +89,7 @@ class PinServiceImpl @Autowired constructor(
             val pinState = pin.state
             println("Get Pin $pinId = ${pin.isHigh}!")
 
-            return pin.isHigh
+            return pin.isHigh*/
         }
         throw RuntimeException("Pin $raspiPin is null. Can't get pin state")
     }

@@ -67,11 +67,11 @@ class SmartHomeApplication {
         return bean.getObject()
     }
 
-    @Bean
+    /*@Bean
     fun provideGpioFactory(): GpioController {
         GpioFactory.setDefaultProvider(RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         return GpioFactory.getInstance()
-    }
+    }*/
 
     @Bean
     fun provideSensorsMap() = mapOf(

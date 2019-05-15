@@ -13,19 +13,20 @@ public class DHT22 extends DHTxxBase {
   @Override
   public DhtData getData() throws Exception {
     int atempts = 0;
-    while (true) {
+    return null;
+    /*while (true) {
       try {
         int[] data = getRawData();
 
-        /*
+        *//*
          * Verify checksum of received data.
-         */
+         *//*
         if (data[4] != ((data[0] + data[1] + data[2] + data[3]) & 0xFF)) {
           throw new Exception("DHT_ERROR_CHECKSUM");
         }
-        /*
+        *//*
          * Calculate humidity and temp for DHT22 sensor.
-         */
+         *//*
         double humidity = (data[0] * 256 + data[1]) / 10.0;
         double temperature = ((data[2] & 0x7F) * 256 + data[3]) / 10.0;
         if ((data[2] & 0x80) != 0) {
@@ -34,14 +35,14 @@ public class DHT22 extends DHTxxBase {
 
         return new DhtData(temperature, humidity);
       } catch (Exception e) {
-        /*atempts++;
+        *//*atempts++;
         if (atempts <= 3) {
           Gpio.delay(DHT_WAIT_INTERVAL);
           continue;
         }
-        throw new Exception("Atempts " + atempts, e);*/
+        throw new Exception("Atempts " + atempts, e);*//*
       }
-    }
+    }*/
   }
 
   @Override

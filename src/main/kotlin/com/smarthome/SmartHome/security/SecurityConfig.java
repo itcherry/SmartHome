@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Configuration
-    @Order(3)
+    @Order(2)
     public static class MainSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Configuration
-    @Order(2)
+    @Order(1)
     public static class GameSecurityConfig extends WebSecurityConfigurerAdapter {
         private final String[] PROTECTED_URLS = new String[]{
                 ControllerConstantsKt.BEDROOM_VALUE + ControllerConstantsKt.ALL_MASK,
@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     .antMatchers(HttpMethod.PUT, "/user").permitAll()
                     .antMatchers(HttpMethod.POST, "/user").permitAll()
-                    .anyRequest().access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                    .anyRequest().access("hasRole('Admin')")
                     .and()
                     .formLogin().disable();
 

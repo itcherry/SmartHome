@@ -25,7 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null)
             throw ExceptionFactory.create(AuthenticationError.NO_SUCH_USER);
 
-
         return UserPrincipal.create(user);
     }
 
