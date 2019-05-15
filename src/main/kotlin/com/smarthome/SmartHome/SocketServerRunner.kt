@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component
 class SocketServerRunner @Autowired constructor(private val server: SocketIOServer) : CommandLineRunner {
     @Throws(Exception::class)
     override fun run(vararg strings: String) {
-       // server.start()
+        server.start()
     }
 }
