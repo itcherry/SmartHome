@@ -28,7 +28,6 @@ public class JwtTokenProvider {
     public String generateToken(Authentication authentication) throws UnsupportedEncodingException {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Claims claims = Jwts.claims().setSubject(Long.toString(userPrincipal.getId()));
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -42,23 +41,28 @@ public class JwtTokenProvider {
     }
 
     public Long getUserIdFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(jwtSecret.getBytes("UTF-8"))
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (UnsupportedEncodingException e) {
+            throw ExceptionFactory.create(AuthenticationError.UNSUPPORTED_JWT_TOKEN);
+        }
 
         return Long.parseLong(claims.getSubject());
     }
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret.getBytes("UTF-8")).parseClaimsJws(authToken);
             return true;
-        } catch (MalformedJwtException ex) {
+        } catch (SignatureException | MalformedJwtException ex) {
             throw ExceptionFactory.create(AuthenticationError.INVALID_JWT_TOKEN);
         } catch (ExpiredJwtException ex) {
             throw ExceptionFactory.create(AuthenticationError.EXPIRED_JWT_TOKEN);
-        } catch (UnsupportedJwtException ex) {
+        } catch (UnsupportedJwtException | UnsupportedEncodingException ex) {
             throw ExceptionFactory.create(AuthenticationError.UNSUPPORTED_JWT_TOKEN);
         } catch (IllegalArgumentException ex) {
             throw ExceptionFactory.create(AuthenticationError.EMPTY_JWT_TOKEN);
