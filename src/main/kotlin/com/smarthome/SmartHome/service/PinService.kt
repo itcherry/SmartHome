@@ -3,17 +3,20 @@ package com.smarthome.SmartHome.service
 import com.smarthome.SmartHome.model.SensorToPin
 
 interface PinService {
-    fun setPin(pinId: Int, isEnabled: Boolean)
+    fun setMultipurposePin(pinId: Int, isEnabled: Boolean)
+    fun pulseMultipurposePin(pinId: Int)
+    fun getMultipurposePin(pinId: Int): Boolean
 
+    /* Only out sensors */
     fun setSensor(sensor: SensorToPin, isEnabled: Boolean)
 
+    /* Only out sensors */
     fun getSensor(sensor: SensorToPin): Boolean
 
-    fun getPin(pinId: Int): Boolean
+    /* Both OUT and IN sensors */
+    fun getMultipurposeSensor(sensor: SensorToPin): Boolean
 
-    fun getOutPin(pinId: Int): Boolean
+    /* Both OUT and IN sensors */
+    fun setMultipurposeSensor(sensor: SensorToPin, isEnabled: Boolean)
 
-    fun getOutSensor(sensor: SensorToPin): Boolean
-
-    fun pulsePin(pinId: Int)
 }

@@ -15,17 +15,17 @@ class PinController @Autowired constructor(
     @ResponseStatus(HttpStatus.OK)
     fun setPin(@PathVariable("pinId") pinId: Int,
                @RequestParam("isEnable") isEnable: Boolean) {
-        pinService.setPin(pinId, isEnable)
+        pinService.setMultipurposePin(pinId, isEnable)
     }
 
     @RequestMapping(method = [(RequestMethod.PUT)], value = ["/pulse/{pinId}"])
     @ResponseStatus(HttpStatus.OK)
     fun pulsePin(@PathVariable("pinId") pinId: Int) {
-        pinService.pulsePin(pinId)
+        pinService.pulseMultipurposePin(pinId)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)], value = ["/{pinId}"])
     @ResponseStatus(HttpStatus.OK)
-    fun getPin(@PathVariable("pinId") pinId: Int) = ResponseBody(ResponseBody.SUCCESS, null, pinService.getPin(pinId))
+    fun getPin(@PathVariable("pinId") pinId: Int) = ResponseBody(ResponseBody.SUCCESS, null, pinService.getMultipurposePin(pinId))
 
 }

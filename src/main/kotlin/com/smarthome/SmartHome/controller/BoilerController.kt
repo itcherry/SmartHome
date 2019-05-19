@@ -15,10 +15,10 @@ class BoilerController @Autowired constructor(
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
     fun setBoilerState(@RequestParam(IS_ENABLE_FIELD) isEnabled: Boolean){
-        pinService.setSensor(SensorToPin.BOILER_OUTPUT, isEnabled)
+        pinService.setMultipurposeSensor(SensorToPin.BOILER_OUTPUT, isEnabled)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
-    fun getBoilerState() =  ResponseBody(ResponseBody.SUCCESS, null, pinService.getOutSensor(SensorToPin.BOILER_OUTPUT))
+    fun getBoilerState() =  ResponseBody(ResponseBody.SUCCESS, null, pinService.getMultipurposeSensor(SensorToPin.BOILER_OUTPUT))
 }

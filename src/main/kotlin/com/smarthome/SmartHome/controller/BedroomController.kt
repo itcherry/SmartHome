@@ -15,12 +15,12 @@ class BedroomController @Autowired constructor(
     @RequestMapping(method = [(RequestMethod.PUT)], value = [ROZETKA_VALUE])
     @ResponseStatus(HttpStatus.OK)
     fun setRozetkaState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
-        pinService.setSensor(SensorToPin.BEDROOM_ROZETKA_OUTPUT, isEnable)
+        pinService.setMultipurposeSensor(SensorToPin.BEDROOM_ROZETKA_OUTPUT, isEnable)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)], value = [ROZETKA_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun getRozetkaState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getOutSensor(SensorToPin.BEDROOM_ROZETKA_OUTPUT))
+    fun getRozetkaState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getMultipurposeSensor(SensorToPin.BEDROOM_ROZETKA_OUTPUT))
 
     @RequestMapping(method = [(RequestMethod.PUT)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)

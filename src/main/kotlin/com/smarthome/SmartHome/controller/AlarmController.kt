@@ -15,10 +15,10 @@ class AlarmController @Autowired constructor(
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
     fun setAlarmState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
-        pinService.setSensor(SensorToPin.ALARM_OUTPUT, isEnable)
+        pinService.setMultipurposeSensor(SensorToPin.ALARM_OUTPUT, isEnable)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
-    fun getAlarmState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getOutSensor(SensorToPin.ALARM_OUTPUT))
+    fun getAlarmState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getMultipurposeSensor(SensorToPin.ALARM_OUTPUT))
 }

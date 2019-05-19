@@ -15,10 +15,10 @@ class DoorController @Autowired constructor(
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
     fun setDoorState(@RequestParam(DO_OPEN_FIELD) doOpen: Boolean) {
-        pinService.setSensor(SensorToPin.DOOR_OUTPUT, doOpen)
+        pinService.setMultipurposeSensor(SensorToPin.DOOR_OUTPUT, doOpen)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
-    fun getDoorState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getOutSensor(SensorToPin.DOOR_OUTPUT))
+    fun getDoorState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getMultipurposeSensor(SensorToPin.DOOR_OUTPUT))
 }
