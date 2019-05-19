@@ -54,7 +54,6 @@ class PinServiceImpl @Autowired constructor(
             } else {
                 gpio.provisionDigitalInputPin(raspiPin)
             }
-            val pinState = pin.state
             println("Get Pin $pinId = ${pin.isHigh}!")
 
             return pin.isHigh
@@ -86,7 +85,6 @@ class PinServiceImpl @Autowired constructor(
             } else {
                 gpio.provisionDigitalOutputPin(raspiPin)
             }
-            val pinState = pin.state
             println("Get Pin $pinId = ${pin.isHigh}!")
 
             return pin.isHigh

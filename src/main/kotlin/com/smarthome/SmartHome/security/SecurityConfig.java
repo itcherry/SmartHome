@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     .antMatchers(HttpMethod.PUT, "/user").permitAll()
                     .antMatchers(HttpMethod.POST, "/user").permitAll()
-                    .anyRequest().access("hasRole('Admin')")
+                    .anyRequest().hasAuthority("Admin")
                     .and()
                     .formLogin().disable();
 
