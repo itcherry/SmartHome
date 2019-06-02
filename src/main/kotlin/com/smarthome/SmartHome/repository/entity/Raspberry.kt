@@ -5,6 +5,6 @@ import javax.persistence.*
 @Entity
 @Table(name = "raspberry")
 data class Raspberry (
-        @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long = 0,
-        @Column(name = "isSecurityEnabled", nullable = false) val isSecurityEnabled: Boolean
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0L,
+        @Column(name = "isSecurityEnabled", nullable = false) val isSecurityEnabled: Boolean = false
 )

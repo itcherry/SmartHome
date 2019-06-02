@@ -17,7 +17,7 @@ class RaspberryServiceImpl @Autowired constructor(private val raspberryRepositor
             val newRaspberry = it.copy(isSecurityEnabled = true)
             raspberryRepository.save(newRaspberry)
         }, {
-            raspberryRepository.save(Raspberry(isSecurityEnabled = true))
+            raspberryRepository.save(Raspberry(1L, true))
         })
     }
 
@@ -28,12 +28,12 @@ class RaspberryServiceImpl @Autowired constructor(private val raspberryRepositor
             val newRaspberry = it.copy(isSecurityEnabled = false)
             raspberryRepository.save(newRaspberry)
         }, {
-            raspberryRepository.save(Raspberry(isSecurityEnabled = false))
+            raspberryRepository.save(Raspberry(1L, false))
         })
     }
 
     @Transactional(readOnly = true)
     override fun isSecurityEnabled(): Boolean {
-        return raspberryRepository.findById(0L).orElse(Raspberry(isSecurityEnabled = false)).isSecurityEnabled
+        return raspberryRepository.findById(1L).orElse(Raspberry(1L, false)).isSecurityEnabled
     }
 }

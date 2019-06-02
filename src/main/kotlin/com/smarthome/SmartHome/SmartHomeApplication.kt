@@ -21,7 +21,9 @@ import org.springframework.core.convert.ConversionService
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import java.util.HashSet
+import java.util.concurrent.Executor
 
 @EnableJpaAuditing
 @EnableAsync
@@ -71,6 +73,13 @@ class SmartHomeApplication {
     fun provideGpioFactory(): GpioController {
         GpioFactory.setDefaultProvider(RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         return GpioFactory.getInstance()
+    }
+
+    @Bean(name = ["threadPoolTaskExecutor"])
+    fun threadPoolTaskExecutor(): Executor {
+        val threadPoolTaskExecutor = ThreadPoolTaskExecutor()
+        threadPoolTaskExecutor.maxPoolSize = 100
+        return ThreadPoolTaskExecutor()
     }
 
     @Bean
