@@ -1,4 +1,4 @@
-package com.smarthome.SmartHome.model
+package com.smarthome.SmartHome.service.impl.temperature_humidity.model
 
 import com.pi4j.io.gpio.Pin
 import com.pi4j.io.gpio.RaspiPin

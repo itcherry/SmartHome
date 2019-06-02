@@ -1,4 +1,4 @@
-package com.smarthome.SmartHome.model
+package com.smarthome.SmartHome.service.impl.pin.model
 
 import com.pi4j.io.gpio.RaspiPin
 

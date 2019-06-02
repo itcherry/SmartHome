@@ -1,10 +1,10 @@
-package com.smarthome.SmartHome.service.impl
+package com.smarthome.SmartHome.service.impl.temperature_humidity
 
 import com.smarthome.SmartHome.controller.model.SensorResult
-import com.smarthome.SmartHome.dhtxx.DHT22
-import com.smarthome.SmartHome.model.DHT22Type
-import com.smarthome.SmartHome.model.TemperatureHumidity
+import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22Type
+import com.smarthome.SmartHome.controller.model.TemperatureHumidity
 import com.smarthome.SmartHome.service.HumiTempService
+import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -42,7 +42,8 @@ class HumiTempServiceImpl @Autowired constructor(
     override fun getDataFromSensor(dhT22Type: DHT22Type): TemperatureHumidity {
         try {
             val dhtData = sensorsMap[dhT22Type]?.data
-            return TemperatureHumidity(humidity = dhtData?.humidity ?: 0.0,
+            return TemperatureHumidity(humidity = dhtData?.humidity
+                    ?: 0.0,
                     temperature = dhtData?.temperature ?: 0.0)
         } catch (e: Exception){
             println("An error occurred when reading data from sensor: ${dhT22Type.name}. Message: ${e.message}")

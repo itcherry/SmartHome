@@ -1,9 +1,8 @@
-package com.smarthome.SmartHome.service.impl
+package com.smarthome.SmartHome.service.impl.fcm
 
-import com.smarthome.SmartHome.entity.FcmToken
-import com.smarthome.SmartHome.entity.User
 import com.smarthome.SmartHome.error.FcmError
 import com.smarthome.SmartHome.exception.ExceptionFactory
+import com.smarthome.SmartHome.repository.entity.FcmToken
 import com.smarthome.SmartHome.repository.FcmTokenRepository
 import com.smarthome.SmartHome.service.FcmTokenService
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class FcmTokenServiceImpl @Autowired constructor(private val fcmTokenRepository: FcmTokenRepository) : FcmTokenService {
 
     @Transactional(readOnly = true)
-    override fun getAllTokens(): List<FcmToken> = fcmTokenRepository.findAll()
+    override fun getAllTokens(): List<String> = fcmTokenRepository.findAll().map { it.token }
 
     @Transactional
     override fun addToken(token: String?) {

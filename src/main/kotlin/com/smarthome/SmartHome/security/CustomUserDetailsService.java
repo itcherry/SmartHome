@@ -1,6 +1,6 @@
 package com.smarthome.SmartHome.security;
 
-import com.smarthome.SmartHome.entity.User;
+import com.smarthome.SmartHome.repository.entity.User;
 import com.smarthome.SmartHome.error.AuthenticationError;
 import com.smarthome.SmartHome.exception.ExceptionFactory;
 import com.smarthome.SmartHome.repository.UserRepository;

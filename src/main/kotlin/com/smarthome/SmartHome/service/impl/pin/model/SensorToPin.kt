@@ -1,4 +1,4 @@
-package com.smarthome.SmartHome.model
+package com.smarthome.SmartHome.service.impl.pin.model
 
 enum class SensorToPin(val pin: Pin, val direction: PinDirection) {
     CORRIDOR_LIGHT_OUTPUT(Pin.GPIO_14, PinDirection.OUT),
@@ -14,5 +14,6 @@ enum class SensorToPin(val pin: Pin, val direction: PinDirection) {
     LIVING_ROOM_ROZETKA_OUTPUT(Pin.GPIO_24, PinDirection.MULTIPURPOSE),
     ALARM_OUTPUT(Pin.GPIO_07, PinDirection.MULTIPURPOSE),
     DOOR_OUTPUT(Pin.GPIO_12, PinDirection.MULTIPURPOSE),
-    NEPTUN_INPUT(Pin.GPIO_05, PinDirection.IN)
+    NEPTUN_INPUT(Pin.GPIO_05, PinDirection.IN),
+    SECURITY_INPUT(Pin.GPIO_09, PinDirection.IN)
 }

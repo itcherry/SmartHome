@@ -1,5 +1,9 @@
 package com.smarthome.SmartHome
 
+import com.smarthome.SmartHome.service.FcmService
+import com.smarthome.SmartHome.service.impl.fcm.builder.FcmPushDirector
+import com.smarthome.SmartHome.service.impl.fcm.builder.HighCpuTemperatureFcmPushBuilder
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
@@ -12,7 +16,7 @@ import java.io.InputStreamReader
 @Component
 class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
     private var timer = Timer("temperatureTimer")
-
+    @Autowired lateinit var fcmService: FcmService
     /**
      * This event is executed as late as conceivably possible to indicate that
      * the application is ready to service requests.
@@ -31,7 +35,7 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
                         println("CPU temperature is: $temp")
 
                         if((temp ?: 0) > 70){
-                            // TODO send push notification
+                            sendPushNotificationAboutHighTemperature()
                         }
                         proc.waitFor()
                     } catch (e: IOException) {
@@ -43,8 +47,14 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
                 }
             }
 
+    private fun sendPushNotificationAboutHighTemperature(){
+        val fcmPush = FcmPushDirector(HighCpuTemperatureFcmPushBuilder())
+                .buildFcmPush(null, null)
+        fcmService.sendPushNotificationsToUsers(fcmPush)
+    }
+
     companion object {
-        private const val PERIOD = 1000L * 60L * 10L // Each per 10 minutes
+        private const val PERIOD = 1000L * 60L * 5L // Once per 5 minutes
     }
 
 }

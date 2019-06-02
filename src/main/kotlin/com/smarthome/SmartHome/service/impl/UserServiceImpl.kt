@@ -1,6 +1,6 @@
 package com.smarthome.SmartHome.service.impl
 
-import com.smarthome.SmartHome.entity.User
+import com.smarthome.SmartHome.repository.entity.User
 import com.smarthome.SmartHome.repository.UserRepository
 import com.smarthome.SmartHome.service.UserService
 import org.springframework.beans.factory.annotation.Autowired

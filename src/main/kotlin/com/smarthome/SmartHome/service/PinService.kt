@@ -1,6 +1,6 @@
 package com.smarthome.SmartHome.service
 
-import com.smarthome.SmartHome.model.SensorToPin
+import com.smarthome.SmartHome.service.impl.pin.model.SensorToPin
 
 interface PinService {
     fun setMultipurposePin(pinId: Int, isEnabled: Boolean)
@@ -19,4 +19,7 @@ interface PinService {
     /* Both OUT and IN sensors */
     fun setMultipurposeSensor(sensor: SensorToPin, isEnabled: Boolean)
 
+    fun setSecurityAlarmListener(listener: () -> Unit)
+
+    fun setNeptunAlarmListener(listener:() -> Unit)
 }

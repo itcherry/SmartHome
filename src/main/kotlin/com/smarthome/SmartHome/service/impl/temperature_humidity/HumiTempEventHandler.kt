@@ -1,11 +1,11 @@
-package com.smarthome.SmartHome.socket
+package com.smarthome.SmartHome.service.impl.temperature_humidity
 
 import com.corundumstudio.socketio.SocketIONamespace
 import com.corundumstudio.socketio.SocketIOServer
 import com.corundumstudio.socketio.listener.ConnectListener
 import com.corundumstudio.socketio.listener.DisconnectListener
 import com.google.gson.Gson
-import com.smarthome.SmartHome.model.DHT22Type
+import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22Type
 import com.smarthome.SmartHome.service.HumiTempService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

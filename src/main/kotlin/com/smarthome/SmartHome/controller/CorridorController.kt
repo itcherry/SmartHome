@@ -1,7 +1,7 @@
 package com.smarthome.SmartHome.controller
 
 import com.smarthome.SmartHome.controller.model.ResponseBody
-import com.smarthome.SmartHome.model.SensorToPin
+import com.smarthome.SmartHome.service.impl.pin.model.SensorToPin
 import com.smarthome.SmartHome.service.PinService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

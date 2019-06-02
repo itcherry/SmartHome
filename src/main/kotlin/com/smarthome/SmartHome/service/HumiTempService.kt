@@ -1,8 +1,8 @@
 package com.smarthome.SmartHome.service
 
 import com.smarthome.SmartHome.controller.model.SensorResult
-import com.smarthome.SmartHome.model.DHT22Type
-import com.smarthome.SmartHome.model.TemperatureHumidity
+import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22Type
+import com.smarthome.SmartHome.controller.model.TemperatureHumidity
 
 interface HumiTempService {
     fun getAllSensorsData(): List<SensorResult>

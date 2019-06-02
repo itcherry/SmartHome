@@ -1,6 +1,6 @@
 package com.smarthome.SmartHome.repository;
 
-import com.smarthome.SmartHome.entity.User;
+import com.smarthome.SmartHome.repository.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

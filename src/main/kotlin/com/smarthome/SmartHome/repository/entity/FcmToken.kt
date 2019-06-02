@@ -1,4 +1,4 @@
-package com.smarthome.SmartHome.entity
+package com.smarthome.SmartHome.repository.entity
 
 import javax.persistence.*
 

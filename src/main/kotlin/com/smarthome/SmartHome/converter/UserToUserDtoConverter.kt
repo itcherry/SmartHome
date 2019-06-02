@@ -1,7 +1,7 @@
 package com.smarthome.SmartHome.converter
 
-import com.smarthome.SmartHome.entity.User
-import com.smarthome.SmartHome.transfer.UserDto
+import com.smarthome.SmartHome.repository.entity.User
+import com.smarthome.SmartHome.controller.model.UserDto
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 

@@ -9,8 +9,8 @@ import com.pi4j.io.gpio.GpioFactory
 import com.pi4j.io.gpio.RaspiGpioProvider
 import com.pi4j.io.gpio.RaspiPinNumberingScheme
 import com.smarthome.SmartHome.converter.UserToUserDtoConverter
-import com.smarthome.SmartHome.dhtxx.DHT22
-import com.smarthome.SmartHome.model.DHT22Type.*
+import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22
+import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22Type.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

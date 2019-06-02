@@ -1,4 +1,4 @@
-package com.smarthome.SmartHome.transfer
+package com.smarthome.SmartHome.controller.model
 
 import javax.validation.constraints.NotNull
 

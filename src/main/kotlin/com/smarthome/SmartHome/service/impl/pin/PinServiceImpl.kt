@@ -1,18 +1,45 @@
-package com.smarthome.SmartHome.service.impl
+package com.smarthome.SmartHome.service.impl.pin
 
 import com.pi4j.io.gpio.*
-import com.smarthome.SmartHome.model.Pin
-import com.smarthome.SmartHome.model.PinDirection
-import com.smarthome.SmartHome.model.SensorToPin
+import com.pi4j.io.gpio.event.GpioPinListener
+import com.smarthome.SmartHome.service.impl.pin.model.Pin
+import com.smarthome.SmartHome.service.impl.pin.model.PinDirection
+import com.smarthome.SmartHome.service.impl.pin.model.SensorToPin
 import com.smarthome.SmartHome.service.PinService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import com.pi4j.util.CommandArgumentParser.getPin
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent
+import com.pi4j.io.gpio.event.GpioPinListenerDigital
+import com.pi4j.io.gpio.PinPullResistance
+import com.pi4j.io.gpio.RaspiPin
+import com.pi4j.io.gpio.GpioPinDigitalInput
 
 
 @Service
 class PinServiceImpl @Autowired constructor(
         private val gpio: GpioController
 ) : PinService {
+    override fun setSecurityAlarmListener(listener: () -> Unit) {
+        val securityRaspiPin = Pin.getRaspiPinById(SensorToPin.SECURITY_INPUT.pin.pinId)
+        gpio.provisionDigitalInputPin(securityRaspiPin, PinPullResistance.PULL_DOWN).apply {
+            setShutdownOptions(true)
+            addListener(GpioPinListenerDigital { event ->
+                listener.invoke()
+            })
+        }
+    }
+
+    override fun setNeptunAlarmListener(listener: () -> Unit) {
+        val neptunRaspiPin = Pin.getRaspiPinById(SensorToPin.NEPTUN_INPUT.pin.pinId)
+        gpio.provisionDigitalInputPin(neptunRaspiPin, PinPullResistance.PULL_DOWN).apply {
+            setShutdownOptions(true)
+            addListener(GpioPinListenerDigital { event ->
+                listener.invoke()
+            })
+        }
+    }
+
     override fun setMultipurposePin(pinId: Int, isEnabled: Boolean) {
         val raspiPin = Pin.getRaspiPinById(pinId)
         raspiPin?.let {
@@ -82,7 +109,7 @@ class PinServiceImpl @Autowired constructor(
         }
     }
 
-    private fun setPin(pinId: Int, isEnabled: Boolean){
+    private fun setPin(pinId: Int, isEnabled: Boolean) {
         val raspiPin = Pin.getRaspiPinById(pinId)
         raspiPin?.let {
             val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
@@ -105,7 +132,7 @@ class PinServiceImpl @Autowired constructor(
         }
     }
 
-    private fun getPin(pinId: Int): Boolean{
+    private fun getPin(pinId: Int): Boolean {
         val raspiPin = Pin.getRaspiPinById(pinId)
         raspiPin?.let {
             val pin = if (gpio.getProvisionedPin(raspiPin) != null) {
