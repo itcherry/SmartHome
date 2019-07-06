@@ -8,28 +8,23 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class RaspberryServiceImpl @Autowired constructor(private val raspberryRepository: RaspberryRepository) : RaspberryService {
+open class RaspberryServiceImpl @Autowired constructor(private val raspberryRepository: RaspberryRepository) : RaspberryService {
 
     @Transactional
     override fun enableSecurity() {
         val optionalRaspberry = raspberryRepository.findById(0L)
-        optionalRaspberry.ifPresentOrElse({
-            val newRaspberry = it.copy(isSecurityEnabled = true)
-            raspberryRepository.save(newRaspberry)
-        }, {
-            raspberryRepository.save(Raspberry(1L, true))
-        })
+
+        val newRaspberry = optionalRaspberry.orElse(Raspberry(1L, true))
+                .copy(isSecurityEnabled = true)
+        raspberryRepository.save(newRaspberry)
     }
 
     @Transactional
     override fun disableSecurity() {
         val optionalRaspberry = raspberryRepository.findById(0L)
-        optionalRaspberry.ifPresentOrElse({
-            val newRaspberry = it.copy(isSecurityEnabled = false)
-            raspberryRepository.save(newRaspberry)
-        }, {
-            raspberryRepository.save(Raspberry(1L, false))
-        })
+        val newRaspberry = optionalRaspberry.orElse(Raspberry(1L, false))
+                .copy(isSecurityEnabled = false)
+        raspberryRepository.save(newRaspberry)
     }
 
     @Transactional(readOnly = true)

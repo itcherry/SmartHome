@@ -42,7 +42,7 @@ class UserController @Autowired constructor(
         return ResponseBody(SUCCESS, null, resultUserDto.copy(password = "", securityToken = jwt))
     }
 
-    @RequestMapping(method = [RequestMethod.PUT], value = "/token/{fcmToken}")
+    @RequestMapping(method = [RequestMethod.PUT], value = ["/token/{fcmToken}"])
     @ResponseStatus(HttpStatus.OK)
     fun setUserToken(@PathVariable("fcmToken") fcmToken: String): ResponseBody<Any?> {
         fcmTokenService.addToken(fcmToken)

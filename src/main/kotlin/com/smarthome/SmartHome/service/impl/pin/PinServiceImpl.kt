@@ -22,7 +22,7 @@ class PinServiceImpl @Autowired constructor(
 ) : PinService {
     override fun setSecurityAlarmListener(listener: () -> Unit) {
         val securityRaspiPin = Pin.getRaspiPinById(SensorToPin.SECURITY_INPUT.pin.pinId)
-        gpio.provisionDigitalInputPin(securityRaspiPin, PinPullResistance.PULL_DOWN).apply {
+        gpio.provisionDigitalInputPin(securityRaspiPin).apply {
             setShutdownOptions(true)
             addListener(GpioPinListenerDigital { event ->
                 listener.invoke()
@@ -32,7 +32,7 @@ class PinServiceImpl @Autowired constructor(
 
     override fun setNeptunAlarmListener(listener: () -> Unit) {
         val neptunRaspiPin = Pin.getRaspiPinById(SensorToPin.NEPTUN_INPUT.pin.pinId)
-        gpio.provisionDigitalInputPin(neptunRaspiPin, PinPullResistance.PULL_DOWN).apply {
+        gpio.provisionDigitalInputPin(neptunRaspiPin).apply {
             setShutdownOptions(true)
             addListener(GpioPinListenerDigital { event ->
                 listener.invoke()
