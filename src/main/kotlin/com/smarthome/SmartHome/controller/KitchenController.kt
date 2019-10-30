@@ -14,11 +14,11 @@ class KitchenController @Autowired constructor(
 ) {
     @RequestMapping(method = [(RequestMethod.PUT)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun setLightState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
-        pinService.setSensor(SensorToPin.KITCHEN_LIGHT_OUTPUT, isEnable)
+    fun pulseLightState() {
+        pinService.pulseMultipurposeSensor(SensorToPin.KITCHEN_LIGHT_OUTPUT)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getSensor(SensorToPin.KITCHEN_LIGHT_INPUT))
+    fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, !pinService.getSensor(SensorToPin.KITCHEN_LIGHT_INPUT))
 }

@@ -22,13 +22,25 @@ class LivingRoomController @Autowired constructor(
     @ResponseStatus(HttpStatus.OK)
     fun getRozetkaState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getMultipurposeSensor(SensorToPin.LIVING_ROOM_ROZETKA_OUTPUT))
 
+    @RequestMapping(method = [(RequestMethod.PUT)], value = [AQUARIUM_VALUE])
+    @ResponseStatus(HttpStatus.OK)
+    fun setAquariumState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
+        pinService.setMultipurposeSensor(SensorToPin.AQUARIUM_OUTPUT, isEnable)
+    }
+
+    @RequestMapping(method = [(RequestMethod.GET)], value = [AQUARIUM_VALUE])
+    @ResponseStatus(HttpStatus.OK)
+    fun getAquariumState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getMultipurposeSensor(SensorToPin.AQUARIUM_OUTPUT))
+
     @RequestMapping(method = [(RequestMethod.PUT)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun setLightState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
-        pinService.setSensor(SensorToPin.LIVING_ROOM_LIGHT_OUTPUT, isEnable)
+    fun pulseLightState() {
+        pinService.pulseMultipurposeSensor(SensorToPin.LIVING_ROOM_LIGHT_OUTPUT)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getSensor(SensorToPin.LIVING_ROOM_LIGHT_INPUT))
+    fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, !pinService.getSensor(SensorToPin.LIVING_ROOM_LIGHT_INPUT))
+
+
 }

@@ -24,11 +24,11 @@ class BedroomController @Autowired constructor(
 
     @RequestMapping(method = [(RequestMethod.PUT)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun setLightState(@RequestParam(IS_ENABLE_FIELD) isEnable: Boolean) {
-        pinService.setSensor(SensorToPin.BEDROOM_LIGHT_OUTPUT, isEnable)
+    fun pulseLightState() {
+        pinService.pulseMultipurposeSensor(SensorToPin.BEDROOM_LIGHT_OUTPUT)
     }
 
     @RequestMapping(method = [(RequestMethod.GET)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
-    fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getSensor(SensorToPin.BEDROOM_LIGHT_INPUT))
+    fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, !pinService.getSensor(SensorToPin.BEDROOM_LIGHT_INPUT))
 }

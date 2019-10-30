@@ -4,7 +4,8 @@ public enum NotificationMessageType {
     HIGH_CPU_TEMPERATURE(1),
     NEPTUN_ALARM(2),
     SECURITY_ALARM(3),
-    SECURITY_ENABLED(4);
+    SECURITY_ENABLED(4),
+    FIRE_ALARM(5);
 
     private int code;
 

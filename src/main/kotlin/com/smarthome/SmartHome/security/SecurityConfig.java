@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ControllerConstantsKt.USER_VALUE + ControllerConstantsKt.ALL_MASK,
                 ControllerConstantsKt.ALARM_VALUE + ControllerConstantsKt.ALL_MASK,
                 ControllerConstantsKt.BOILER_VALUE + ControllerConstantsKt.ALL_MASK,
-                ControllerConstantsKt.DOOR_VALUE + ControllerConstantsKt.ALL_MASK,
+                ControllerConstantsKt.FIRE_VALUE + ControllerConstantsKt.ALL_MASK,
                 ControllerConstantsKt.NEPTUN_VALUE + ControllerConstantsKt.ALL_MASK
         };
 

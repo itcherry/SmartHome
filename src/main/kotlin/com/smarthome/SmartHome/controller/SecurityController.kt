@@ -17,21 +17,9 @@ import org.springframework.web.bind.annotation.*
 class SecurityController @Autowired constructor(
         private val raspberryService: RaspberryService,
         private val fcmService: FcmService,
-        pinService: PinService
+        private val pinService: PinService
 ) {
-    init {
-        pinService.setNeptunAlarmListener {
-            fcmService.sendPushNotificationsToUsers(FcmPushDirector(NeptunAlarmFcmPushBuilder())
-                    .buildFcmPush(null, null))
-        }
-
-        pinService.setSecurityAlarmListener {
-            if(raspberryService.isSecurityEnabled()) {
-                fcmService.sendPushNotificationsToUsers(FcmPushDirector(SecurityAlertFcmPushBuilder())
-                        .buildFcmPush(null, null))
-            }
-        }
-    }
+    init { setSecurityAlarmListener() }
 
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
@@ -42,6 +30,7 @@ class SecurityController @Autowired constructor(
             raspberryService.disableSecurity()
         }
 
+        setSecurityAlarmListener()
         fcmService.sendPushNotificationsToUsers(FcmPushDirector(SecurityEnabledFcmBushBuilder())
                 .buildFcmPush(null, doEnable))
 
@@ -51,4 +40,14 @@ class SecurityController @Autowired constructor(
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
     fun isSecurityEnabled() = ResponseBody(ResponseBody.SUCCESS, null, raspberryService.isSecurityEnabled())
+
+    private fun setSecurityAlarmListener() {
+        if (raspberryService.isSecurityEnabled()) {
+            pinService.setSecurityAlarmListener {
+                fcmService.sendPushNotificationsToUsers(FcmPushDirector(SecurityAlertFcmPushBuilder())
+                        .buildFcmPush(null, null))
+            }
+        }
+    }
+
 }

@@ -8,34 +8,56 @@ import com.smarthome.SmartHome.service.impl.pin.model.SensorToPin
 import com.smarthome.SmartHome.service.PinService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import com.pi4j.util.CommandArgumentParser.getPin
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent
 import com.pi4j.io.gpio.event.GpioPinListenerDigital
-import com.pi4j.io.gpio.PinPullResistance
-import com.pi4j.io.gpio.RaspiPin
 import com.pi4j.io.gpio.GpioPinDigitalInput
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent
 
 
 @Service
 class PinServiceImpl @Autowired constructor(
         private val gpio: GpioController
 ) : PinService {
-    override fun setSecurityAlarmListener(listener: () -> Unit) {
+    override fun setSecurityAlarmListener(listener: (GpioPinDigitalStateChangeEvent) -> Unit) {
         val securityRaspiPin = Pin.getRaspiPinById(SensorToPin.SECURITY_INPUT.pin.pinId)
         gpio.provisionDigitalInputPin(securityRaspiPin).apply {
             setShutdownOptions(true)
+            removeAllListeners()
             addListener(GpioPinListenerDigital { event ->
-                listener.invoke()
+                when(event.state){
+                    PinState.HIGH -> println("Thief detected at home")
+                    else -> println("Thief has been killed. Congratulations police!")
+                }
+                listener.invoke(event)
             })
         }
     }
 
-    override fun setNeptunAlarmListener(listener: () -> Unit) {
+    override fun setNeptunAlarmListener(listener: (GpioPinDigitalStateChangeEvent) -> Unit) {
         val neptunRaspiPin = Pin.getRaspiPinById(SensorToPin.NEPTUN_INPUT.pin.pinId)
         gpio.provisionDigitalInputPin(neptunRaspiPin).apply {
             setShutdownOptions(true)
+            removeAllListeners()
             addListener(GpioPinListenerDigital { event ->
-                listener.invoke()
+                when(event.state){
+                    PinState.HIGH -> println("There is water at home")
+                    else -> println("Water reduced. Congratulations plumber!")
+                }
+                listener.invoke(event)
+            })
+        }
+    }
+
+    override fun setFireAlarmListener(listener: (GpioPinDigitalStateChangeEvent) -> Unit) {
+        val fireRaspiPin = Pin.getRaspiPinById(SensorToPin.FIRE_INPUT.pin.pinId)
+        gpio.provisionDigitalInputPin(fireRaspiPin).apply {
+            setShutdownOptions(true)
+            removeAllListeners()
+            addListener(GpioPinListenerDigital { event ->
+                when(event.state){
+                    PinState.HIGH -> println("There is fire at home")
+                    else -> println("Fire at home stopped. Congratulations firemen!")
+                }
+                listener.invoke(event)
             })
         }
     }
@@ -96,6 +118,14 @@ class PinServiceImpl @Autowired constructor(
     override fun setMultipurposeSensor(sensor: SensorToPin, isEnabled: Boolean) {
         if (sensor.direction == PinDirection.MULTIPURPOSE) {
             setMultipurposePin(sensor.pin.pinId, isEnabled)
+        } else {
+            throw RuntimeException("Pin direction should be MULTIPURPOSE!!")
+        }
+    }
+
+    override fun pulseMultipurposeSensor(sensor: SensorToPin) {
+        if (sensor.direction == PinDirection.MULTIPURPOSE) {
+            pulseMultipurposePin(sensor.pin.pinId)
         } else {
             throw RuntimeException("Pin direction should be MULTIPURPOSE!!")
         }
