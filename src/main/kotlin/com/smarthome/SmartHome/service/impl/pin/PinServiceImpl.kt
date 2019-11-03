@@ -1,6 +1,7 @@
 package com.smarthome.SmartHome.service.impl.pin
 
 import com.pi4j.io.gpio.*
+import com.pi4j.io.gpio.event.GpioPinListener
 import com.smarthome.SmartHome.service.impl.pin.model.Pin
 import com.smarthome.SmartHome.service.impl.pin.model.PinDirection
 import com.smarthome.SmartHome.service.impl.pin.model.SensorToPin
@@ -28,9 +29,11 @@ class PinServiceImpl @Autowired constructor(
             setShutdownOptions(true)
             removeAllListeners()
             addListener(GpioPinListenerDigital { event ->
-                if(event.state == PinState.LOW) {
-                    listener.invoke(event)
+                when (event.state) {
+                    PinState.HIGH -> println("Thief detected at home")
+                    else -> println("Thief has been killed. Congratulations police!")
                 }
+                listener.invoke(event)
             })
         }
     }
@@ -51,9 +54,7 @@ class PinServiceImpl @Autowired constructor(
                     PinState.HIGH -> println("There is water at home")
                     else -> println("Water reduced. Congratulations plumber!")
                 }
-                if(event.state == PinState.LOW) {
-                    listener.invoke(event)
-                }
+                listener.invoke(event)
             })
         }
     }
@@ -74,9 +75,7 @@ class PinServiceImpl @Autowired constructor(
                     PinState.HIGH -> println("There is fire at home")
                     else -> println("Fire at home stopped. Congratulations firemen!")
                 }
-                if(event.state == PinState.LOW) {
-                    listener.invoke(event)
-                }
+                listener.invoke(event)
             })
         }
     }
