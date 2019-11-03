@@ -21,7 +21,9 @@ class NeptunController @Autowired constructor(
 ) {
 
     init {
+        println("Neptun alarm listener has been setted up")
         pinService.setNeptunAlarmListener {
+            println("Neptun alarm!!!!")
             fcmService.sendPushNotificationsToUsers(FcmPushDirector(NeptunAlarmFcmPushBuilder())
                     .buildFcmPush(null, null))
         }
@@ -29,5 +31,5 @@ class NeptunController @Autowired constructor(
 
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
-    fun getNeptunState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getSensor(SensorToPin.NEPTUN_INPUT))
+    fun getNeptunState() = ResponseBody(ResponseBody.SUCCESS, null, !pinService.getSensor(SensorToPin.NEPTUN_INPUT))
 }

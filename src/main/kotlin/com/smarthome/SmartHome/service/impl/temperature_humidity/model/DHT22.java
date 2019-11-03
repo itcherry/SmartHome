@@ -2,8 +2,13 @@ package com.smarthome.SmartHome.service.impl.temperature_humidity.model;
 
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.wiringpi.Gpio;
+import com.smarthome.SmartHome.exception.ExceptionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class DHT22 extends DHTxxBase {
+  private static final Logger LOG = LoggerFactory.getLogger(ExceptionFactory.class);
 
   private static final int DHT_WAIT_INTERVAL = 2000;
 

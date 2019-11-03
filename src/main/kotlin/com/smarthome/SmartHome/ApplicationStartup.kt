@@ -31,11 +31,11 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
                     try {
                         val proc = Runtime.getRuntime().exec("./temp.sh")
                         val stdInput = BufferedReader(InputStreamReader(proc.inputStream))
-                        val temp = stdInput.readLine().substringAfterLast('=').substringBeforeLast('.').toIntOrNull()
+                        val temp = stdInput.readLine().substringAfterLast('=').substringBeforeLast('.').toIntOrNull() ?: -1
                         println("CPU temperature is: $temp")
 
-                        if((temp ?: 0) > 70){
-                            sendPushNotificationAboutHighTemperature()
+                        if(temp > 50){
+                            sendPushNotificationAboutHighTemperature(temp)
                         }
                         proc.waitFor()
                     } catch (e: IOException) {
@@ -47,9 +47,9 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
                 }
             }
 
-    private fun sendPushNotificationAboutHighTemperature(){
+    private fun sendPushNotificationAboutHighTemperature(temperature: Int){
         val fcmPush = FcmPushDirector(HighCpuTemperatureFcmPushBuilder())
-                .buildFcmPush(null, null)
+                .buildFcmPush(null, temperature)
         fcmService.sendPushNotificationsToUsers(fcmPush)
     }
 

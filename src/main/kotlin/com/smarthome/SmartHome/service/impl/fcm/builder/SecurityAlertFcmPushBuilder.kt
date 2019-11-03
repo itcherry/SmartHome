@@ -8,7 +8,7 @@ class SecurityAlertFcmPushBuilder : FcmPushBuilder() {
         fcmPush.notification = Notification("Someone in your home", "Catch that bastards as fast as you can")
     }
 
-    override fun setData(data: Any) {
+    override fun setData(data: Any?) {
         fcmPush.data = FcmPush.FcmPushData(
                 NotificationMessageType.SECURITY_ALARM.code,
                 data)

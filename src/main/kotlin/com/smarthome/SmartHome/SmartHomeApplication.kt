@@ -71,7 +71,7 @@ class SmartHomeApplication {
 
     @Bean
     fun provideGpioFactory(): GpioController {
-        GpioFactory.setDefaultProvider(RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+        GpioFactory.setDefaultProvider(RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING))
         return GpioFactory.getInstance()
     }
 

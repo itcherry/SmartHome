@@ -5,6 +5,6 @@ import javax.persistence.*
 @Entity
 @Table(name = "fcm")
 data class FcmToken(
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0L,
-        @Column(name = "token", unique = true, nullable = false) val token: String
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id") val id: Long = 0L,
+        @Column(name = "token", unique = true, nullable = false) val token: String = ""
 )

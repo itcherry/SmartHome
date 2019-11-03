@@ -43,7 +43,9 @@ class SecurityController @Autowired constructor(
 
     private fun setSecurityAlarmListener() {
         if (raspberryService.isSecurityEnabled()) {
+            println("Security alarm listener has been setted up")
             pinService.setSecurityAlarmListener {
+                println("Security alarm!!!!")
                 fcmService.sendPushNotificationsToUsers(FcmPushDirector(SecurityAlertFcmPushBuilder())
                         .buildFcmPush(null, null))
             }

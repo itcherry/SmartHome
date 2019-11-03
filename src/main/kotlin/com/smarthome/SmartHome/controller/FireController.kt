@@ -19,7 +19,9 @@ class FireController @Autowired constructor(private val pinService: PinService,
                                             private val fcmService: FcmService) {
 
     init {
+        println("Fire alarm listener has been setted up")
         pinService.setFireAlarmListener {
+            println("Fire alarm!!!!")
             fcmService.sendPushNotificationsToUsers(FcmPushDirector(FireAlarmFcmPushBuilder())
                     .buildFcmPush(null, null))
         }
@@ -27,5 +29,5 @@ class FireController @Autowired constructor(private val pinService: PinService,
 
     @RequestMapping(method = [(RequestMethod.GET)])
     @ResponseStatus(HttpStatus.OK)
-    fun getFireState() = ResponseBody(ResponseBody.SUCCESS, null, pinService.getSensor(SensorToPin.FIRE_INPUT))
+    fun getFireState() = ResponseBody(ResponseBody.SUCCESS, null, !pinService.getSensor(SensorToPin.FIRE_INPUT))
 }

@@ -8,7 +8,7 @@ class NeptunAlarmFcmPushBuilder : FcmPushBuilder() {
         fcmPush.notification = Notification("Neptun is screaming", "You got too much water on your floor. Neptun closed all water engines, but fix it faster.")
     }
 
-    override fun setData(data: Any) {
+    override fun setData(data: Any?) {
         fcmPush.data = FcmPush.FcmPushData(
                 NotificationMessageType.NEPTUN_ALARM.code,
                 data)
