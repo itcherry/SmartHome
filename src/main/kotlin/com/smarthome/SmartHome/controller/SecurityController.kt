@@ -2,6 +2,7 @@ package com.smarthome.SmartHome.controller
 
 import com.smarthome.SmartHome.controller.model.ResponseBody
 import com.smarthome.SmartHome.service.FcmService
+import com.smarthome.SmartHome.service.MailSenderService
 import com.smarthome.SmartHome.service.PinService
 import com.smarthome.SmartHome.service.RaspberryService
 import com.smarthome.SmartHome.service.impl.fcm.builder.FcmPushDirector
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.*
 class SecurityController @Autowired constructor(
         private val raspberryService: RaspberryService,
         private val fcmService: FcmService,
-        private val pinService: PinService
+        private val pinService: PinService,
+        private val mailSenderService: MailSenderService
 ) {
     init { setSecurityAlarmListener() }
 
@@ -48,7 +50,13 @@ class SecurityController @Autowired constructor(
                 println("Security alarm!!!!")
                 fcmService.sendPushNotificationsToUsers(FcmPushDirector(SecurityAlertFcmPushBuilder())
                         .buildFcmPush(null, null))
+                mailSenderService.sendEmailWithPhotoFromCamera()
+                // TODO enable alarm in the flat
             }
+        } else {
+            println("Security alarm listeners removed")
+            pinService.setSecurityAlarmListener(null)
+            // TODO disable alarm in the flat
         }
     }
 

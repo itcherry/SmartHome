@@ -34,7 +34,7 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
                         val temp = stdInput.readLine().substringAfterLast('=').substringBeforeLast('.').toIntOrNull() ?: -1
                         println("CPU temperature is: $temp")
 
-                        if(temp > 50){
+                        if(temp > CRITICAL_TEMPERATURE){
                             sendPushNotificationAboutHighTemperature(temp)
                         }
                         proc.waitFor()
@@ -55,6 +55,7 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
 
     companion object {
         private const val PERIOD = 1000L * 60L * 5L // Once per 5 minutes
+        private const val CRITICAL_TEMPERATURE = 70
     }
 
 }

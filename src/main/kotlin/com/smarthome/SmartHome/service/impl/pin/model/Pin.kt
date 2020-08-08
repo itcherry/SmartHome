@@ -1,5 +1,6 @@
 package com.smarthome.SmartHome.service.impl.pin.model
 
+import com.pi4j.io.gpio.RaspiBcmPin
 import com.pi4j.io.gpio.RaspiPin
 
 enum class Pin(val pinId: Int, private val raspiPin: com.pi4j.io.gpio.Pin) {
@@ -14,7 +15,7 @@ enum class Pin(val pinId: Int, private val raspiPin: com.pi4j.io.gpio.Pin) {
     GPIO_08(8, RaspiPin.GPIO_08),
     GPIO_09(9, RaspiPin.GPIO_09),
     GPIO_10(10, RaspiPin.GPIO_10),
-    GPIO_11(11, RaspiPin.GPIO_11),
+    GPIO_11(11, RaspiBcmPin.GPIO_11),
     GPIO_12(12, RaspiPin.GPIO_12),
     GPIO_13(13, RaspiPin.GPIO_13),
     GPIO_14(14, RaspiPin.GPIO_14),

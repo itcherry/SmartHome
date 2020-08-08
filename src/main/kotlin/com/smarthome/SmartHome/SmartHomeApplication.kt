@@ -20,10 +20,13 @@ import org.springframework.context.support.ConversionServiceFactoryBean
 import org.springframework.core.convert.ConversionService
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
-import java.util.HashSet
+import java.util.*
 import java.util.concurrent.Executor
+
 
 @EnableJpaAuditing
 @EnableAsync
@@ -34,6 +37,27 @@ class SmartHomeApplication {
 
     @Value("\${socketIO.port}")
     private val socketIOPort: Int? = null
+
+    @Value("\${spring.mail.host}")
+    private val smtpHost: String? = null
+
+    @Value("\${spring.mail.username}")
+    private val smtpUsername: String? = null
+
+    @Value("\${spring.mail.password}")
+    private val smtpPassword: String? = null
+
+    @Value("\${spring.mail.port}")
+    private val smtpPort: Int? = null
+
+    @Value("\${spring.mail.properties.mail.smtp.auth}")
+    private val smtpAuth: Boolean? = true
+
+    @Value("\${spring.mail.properties.mail.smtp.starttls.enable}")
+    private val smtpTtlsEnable: Boolean? = true
+
+    @Value("\${spring.mail.protocol}")
+    private val smtpProtocol: String? = null
 
     @Bean
     fun socketIOServer(): SocketIOServer {
@@ -94,6 +118,22 @@ class SmartHomeApplication {
             GsonBuilder()
                     .setLenient()
                     .create()
+
+    @Bean
+    fun provideJavaMailSender(): JavaMailSender {
+        val mailSender = JavaMailSenderImpl().apply {
+            host = smtpHost
+            port = smtpPort ?: 465
+            username = smtpUsername
+            password = smtpPassword
+        }
+        val props: Properties = mailSender.javaMailProperties
+        props.put("mail.transport.protocol", smtpProtocol)
+        props.put("mail.smtp.auth", smtpAuth.toString())
+        props.put("mail.smtp.starttls.enable", smtpTtlsEnable.toString())
+        props.put("mail.debug", "true")
+        return mailSender
+    }
 }
 
 fun main(args: Array<String>) {

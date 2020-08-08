@@ -41,6 +41,4 @@ class LivingRoomController @Autowired constructor(
     @RequestMapping(method = [(RequestMethod.GET)], value = [LIGHT_VALUE])
     @ResponseStatus(HttpStatus.OK)
     fun getLightState() = ResponseBody(ResponseBody.SUCCESS, null, !pinService.getSensor(SensorToPin.LIVING_ROOM_LIGHT_INPUT))
-
-
 }

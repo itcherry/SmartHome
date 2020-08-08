@@ -18,7 +18,7 @@ interface PinService {
     fun pulseMultipurposeSensor(sensor: SensorToPin)
 
     /* Alarm listeners */
-    fun setSecurityAlarmListener(listener: (GpioPinDigitalStateChangeEvent) -> Unit)
+    fun setSecurityAlarmListener(listener: ((GpioPinDigitalStateChangeEvent) -> Unit)?)
 
     fun setNeptunAlarmListener(listener:(GpioPinDigitalStateChangeEvent) -> Unit)
 
