@@ -16,9 +16,6 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent
 class PinServiceImpl @Autowired constructor(
         private val gpio: GpioController
 ) : PinService {
-    init {
-        GpioFactory.setDefaultProvider(RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING))
-    }
 
     override fun setSecurityAlarmListener(listener: ((GpioPinDigitalStateChangeEvent) -> Unit)?) {
         val securityRaspiPin = Pin.getRaspiPinById(SensorToPin.SECURITY_INPUT.pin.pinId)

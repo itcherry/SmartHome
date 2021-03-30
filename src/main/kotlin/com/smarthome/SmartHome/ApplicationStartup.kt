@@ -1,5 +1,6 @@
 package com.smarthome.SmartHome
 
+import com.smarthome.SmartHome.service.BoilerScheduleService
 import com.smarthome.SmartHome.service.FcmService
 import com.smarthome.SmartHome.service.impl.fcm.builder.FcmPushDirector
 import com.smarthome.SmartHome.service.impl.fcm.builder.HighCpuTemperatureFcmPushBuilder
@@ -17,12 +18,15 @@ import java.io.InputStreamReader
 class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
     private var timer = Timer("temperatureTimer")
     @Autowired lateinit var fcmService: FcmService
+    @Autowired lateinit var boilerService: BoilerScheduleService
+
     /**
      * This event is executed as late as conceivably possible to indicate that
      * the application is ready to service requests.
      */
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         timer.scheduleAtFixedRate(getTemperatureTimerTask(), 0L, PERIOD)
+        boilerService.initRecurringJobForEnablingBoiler()
     }
 
     private fun getTemperatureTimerTask() =

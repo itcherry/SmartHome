@@ -42,9 +42,10 @@ class HumiTempServiceImpl @Autowired constructor(
     override fun getDataFromSensor(dhT22Type: DHT22Type): TemperatureHumidity {
         try {
             val dhtData = sensorsMap[dhT22Type]?.data
-            return TemperatureHumidity(humidity = dhtData?.humidity
-                    ?: 0.0,
-                    temperature = dhtData?.temperature ?: 0.0)
+            return TemperatureHumidity(
+                    humidity = dhtData?.humidity ?: 0.0,
+                    temperature = dhtData?.temperature ?: 0.0
+            )
         } catch (e: Exception){
             println("An error occurred when reading data from sensor: ${dhT22Type.name}. Message: ${e.message}")
         }

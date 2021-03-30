@@ -12,23 +12,23 @@ open class RaspberryServiceImpl @Autowired constructor(private val raspberryRepo
 
     @Transactional
     override fun enableSecurity() {
-        val optionalRaspberry = raspberryRepository.findById(0L)
+        val optionalRaspberry = raspberryRepository.findById(1L)
 
-        val newRaspberry = optionalRaspberry.orElse(Raspberry(1L, true))
+        val newRaspberry = optionalRaspberry.orElse(Raspberry(1L, isSecurityEnabled = true))
                 .copy(isSecurityEnabled = true)
         raspberryRepository.save(newRaspberry)
     }
 
     @Transactional
     override fun disableSecurity() {
-        val optionalRaspberry = raspberryRepository.findById(0L)
-        val newRaspberry = optionalRaspberry.orElse(Raspberry(1L, false))
+        val optionalRaspberry = raspberryRepository.findById(1L)
+        val newRaspberry = optionalRaspberry.orElse(Raspberry(1L))
                 .copy(isSecurityEnabled = false)
         raspberryRepository.save(newRaspberry)
     }
 
     @Transactional(readOnly = true)
     override fun isSecurityEnabled(): Boolean {
-        return raspberryRepository.findById(1L).orElse(Raspberry(1L, false)).isSecurityEnabled
+        return raspberryRepository.findById(1L).orElse(Raspberry(1L)).isSecurityEnabled
     }
 }

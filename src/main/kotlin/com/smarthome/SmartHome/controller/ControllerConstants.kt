@@ -7,6 +7,8 @@ const val ALARM_VALUE = "/alarm"
 const val NEPTUN_VALUE = "/neptun"
 const val FIRE_VALUE = "/fire"
 const val BOILER_VALUE = "/boiler"
+const val BOILER_SCHEDULE_VALUE = "/boiler/schedule"
+const val BOILER_SCHEDULE_STATE_VALUE = "/boiler/schedule/state"
 
 const val IS_ENABLE_FIELD = "isEnable"
 
