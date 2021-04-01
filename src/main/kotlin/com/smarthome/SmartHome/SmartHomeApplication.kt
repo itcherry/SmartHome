@@ -6,8 +6,6 @@ import com.corundumstudio.socketio.SocketIOServer
 import com.google.gson.GsonBuilder
 import com.pi4j.io.gpio.GpioController
 import com.pi4j.io.gpio.GpioFactory
-import com.pi4j.io.gpio.RaspiGpioProvider
-import com.pi4j.io.gpio.RaspiPinNumberingScheme
 import com.smarthome.SmartHome.converter.UserToUserDtoConverter
 import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22
 import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22Type.*

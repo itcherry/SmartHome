@@ -4,6 +4,7 @@ import com.smarthome.SmartHome.service.BoilerScheduleService
 import com.smarthome.SmartHome.service.FcmService
 import com.smarthome.SmartHome.service.impl.fcm.builder.FcmPushDirector
 import com.smarthome.SmartHome.service.impl.fcm.builder.HighCpuTemperatureFcmPushBuilder
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
@@ -19,6 +20,7 @@ class ApplicationStartup : ApplicationListener<ApplicationReadyEvent> {
     private var timer = Timer("temperatureTimer")
     @Autowired lateinit var fcmService: FcmService
     @Autowired lateinit var boilerService: BoilerScheduleService
+    private val log = LoggerFactory.getLogger("ApplicationStartup")
 
     /**
      * This event is executed as late as conceivably possible to indicate that

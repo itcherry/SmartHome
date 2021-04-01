@@ -16,4 +16,6 @@ public interface ErrorMessages {
 
     String NO_SUCH_USER = "No such user!!!";
 
+    String ZET_PRO_UNAUTHORISED = "ZetPro unauthorised";
+    String ZET_PRO_NOT_SUCCESSFULL = "ZetPro not successful request";
 }

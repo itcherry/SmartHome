@@ -101,10 +101,18 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>2.3.2.RELEASE</version>
         </dependency>
-        <!--<dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>-->
+
+        <dependency>
+            <groupId>io.github.rburgst</groupId>
+            <artifactId>okhttp-digest</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.7.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -158,6 +166,13 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20160810</version>
+        </dependency>
+
+        <!-- Spring Security OAuth2-->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.5.0.RELEASE</version>
         </dependency>
 
         <!--FCM -->

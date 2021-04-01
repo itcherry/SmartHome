@@ -11,9 +11,9 @@ enum class SensorToPin(val pin: Pin, val direction: PinDirection) {
     BEDROOM_LIGHT_INPUT(Pin.GPIO_22, PinDirection.IN),
     BEDROOM_ROZETKA_OUTPUT(Pin.GPIO_25, PinDirection.MULTIPURPOSE),
     BOILER_OUTPUT(Pin.GPIO_23, PinDirection.MULTIPURPOSE),
-    LIVING_ROOM_ROZETKA_OUTPUT(Pin.GPIO_24, PinDirection.MULTIPURPOSE),
+    LIVING_ROOM_ROZETKA_OUTPUT(Pin.GPIO_12, PinDirection.MULTIPURPOSE),
     ALARM_OUTPUT(Pin.GPIO_07, PinDirection.MULTIPURPOSE),
-    AQUARIUM_OUTPUT(Pin.GPIO_12, PinDirection.MULTIPURPOSE),
+    AQUARIUM_OUTPUT(Pin.GPIO_24, PinDirection.MULTIPURPOSE),
     NEPTUN_INPUT(Pin.GPIO_05, PinDirection.IN),
     SECURITY_INPUT(Pin.GPIO_11, PinDirection.IN),
     FIRE_INPUT(Pin.GPIO_09, PinDirection.IN)

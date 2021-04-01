@@ -123,9 +123,12 @@ class BoilerScheduleServiceImpl @Autowired constructor(
                     pinService.setMultipurposeSensor(SensorToPin.BOILER_OUTPUT, false)
                 } else {
                     boilerSchedule.forEachIndexed { index, timeRange ->
+                        val startTime = if(timeRange.startTime == 0) 1 else timeRange.startTime
+                        val endTime = if(timeRange.endTime == 24*60) 24*60 - 1 else timeRange.endTime
+
                         timers.addAll(listOf(
-                                getTimerWithMinuteScheduledEveryDay(index, timeRange.startTime, true),
-                                getTimerWithMinuteScheduledEveryDay(index, timeRange.endTime, false)
+                                getTimerWithMinuteScheduledEveryDay(index, startTime, true),
+                                getTimerWithMinuteScheduledEveryDay(index, endTime, false)
                         ))
                     }
                 }

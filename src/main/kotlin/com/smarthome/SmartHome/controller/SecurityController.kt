@@ -1,14 +1,14 @@
 package com.smarthome.SmartHome.controller
 
 import com.smarthome.SmartHome.controller.model.ResponseBody
-import com.smarthome.SmartHome.service.FcmService
-import com.smarthome.SmartHome.service.MailSenderService
-import com.smarthome.SmartHome.service.PinService
-import com.smarthome.SmartHome.service.RaspberryService
+import com.smarthome.SmartHome.error.CustomError
+import com.smarthome.SmartHome.exception.ZetProException
+import com.smarthome.SmartHome.service.*
 import com.smarthome.SmartHome.service.impl.fcm.builder.FcmPushDirector
 import com.smarthome.SmartHome.service.impl.fcm.builder.NeptunAlarmFcmPushBuilder
 import com.smarthome.SmartHome.service.impl.fcm.builder.SecurityAlertFcmPushBuilder
 import com.smarthome.SmartHome.service.impl.fcm.builder.SecurityEnabledFcmBushBuilder
+import com.smarthome.SmartHome.service.impl.pin.model.SensorToPin
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -19,13 +19,21 @@ class SecurityController @Autowired constructor(
         private val raspberryService: RaspberryService,
         private val fcmService: FcmService,
         private val pinService: PinService,
-        private val mailSenderService: MailSenderService
+        private val mailSenderService: MailSenderService,
+        private val zetProService: ZetProService
 ) {
     init { setSecurityAlarmListener() }
 
     @RequestMapping(method = [(RequestMethod.PUT)])
     @ResponseStatus(HttpStatus.OK)
     fun doEnable(@RequestParam("doEnable") doEnable: Boolean): ResponseBody<*> {
+
+        try {
+            zetProService.enableZetProSecurity(doEnable)
+        } catch (e: ZetProException) {
+            return ResponseBody(ResponseBody.ERROR, CustomError(e.code,e.message), null)
+        }
+
         if (doEnable) {
             raspberryService.enableSecurity()
         } else {
@@ -47,16 +55,34 @@ class SecurityController @Autowired constructor(
         if (raspberryService.isSecurityEnabled()) {
             println("Security alarm listener has been setted up")
             pinService.setSecurityAlarmListener {
-                println("Security alarm!!!!")
+                println("Security alarm!!!! Pin state: ${it.state.value}")
+                pinService.setMultipurposeSensor(SensorToPin.ALARM_OUTPUT, true)
+                pinService.pulseMultipurposeSensor(SensorToPin.CORRIDOR_LIGHT_OUTPUT)
+                pinService.pulseMultipurposeSensor(SensorToPin.KITCHEN_LIGHT_OUTPUT)
+                pinService.pulseMultipurposeSensor(SensorToPin.BEDROOM_LIGHT_OUTPUT)
+                pinService.pulseMultipurposeSensor(SensorToPin.LIVING_ROOM_LIGHT_OUTPUT)
                 fcmService.sendPushNotificationsToUsers(FcmPushDirector(SecurityAlertFcmPushBuilder())
                         .buildFcmPush(null, null))
                 mailSenderService.sendEmailWithPhotoFromCamera()
-                // TODO enable alarm in the flat
             }
         } else {
             println("Security alarm listeners removed")
+
+            if(!pinService.getSensor(SensorToPin.CORRIDOR_LIGHT_INPUT)) {
+                pinService.pulseMultipurposeSensor(SensorToPin.CORRIDOR_LIGHT_OUTPUT)
+            }
+            if(!pinService.getSensor(SensorToPin.KITCHEN_LIGHT_INPUT)) {
+                pinService.pulseMultipurposeSensor(SensorToPin.KITCHEN_LIGHT_OUTPUT)
+            }
+            if(!pinService.getSensor(SensorToPin.BEDROOM_LIGHT_INPUT)) {
+                pinService.pulseMultipurposeSensor(SensorToPin.BEDROOM_LIGHT_OUTPUT)
+            }
+            if(!pinService.getSensor(SensorToPin.LIVING_ROOM_LIGHT_INPUT)) {
+                pinService.pulseMultipurposeSensor(SensorToPin.LIVING_ROOM_LIGHT_OUTPUT)
+            }
+
+            pinService.setMultipurposeSensor(SensorToPin.ALARM_OUTPUT, false)
             pinService.setSecurityAlarmListener(null)
-            // TODO disable alarm in the flat
         }
     }
 
