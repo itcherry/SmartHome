@@ -3,6 +3,7 @@ package com.smarthome.SmartHome.service.impl.temperature_humidity
 import com.pi4j.wiringpi.Gpio
 import com.pi4j.wiringpi.GpioUtil
 
+@Deprecated("Outdated")
 class DHT22DataHandler : Runnable {
     private val dht22_dat = intArrayOf(0, 0, 0, 0, 0)
     private var temperature = 9999f

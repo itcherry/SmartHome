@@ -6,7 +6,7 @@ import com.smarthome.SmartHome.exception.ExceptionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+@Deprecated
 public class DHT22 extends DHTxxBase {
   private static final Logger LOG = LoggerFactory.getLogger(ExceptionFactory.class);
 

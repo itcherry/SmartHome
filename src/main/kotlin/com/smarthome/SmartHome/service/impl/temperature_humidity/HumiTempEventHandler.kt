@@ -7,6 +7,7 @@ import com.corundumstudio.socketio.listener.DisconnectListener
 import com.google.gson.Gson
 import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DHT22Type
 import com.smarthome.SmartHome.service.HumiTempService
+import com.smarthome.SmartHome.service.impl.temperature_humidity.model.DS18B20Type
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
@@ -49,18 +50,18 @@ class HumiTempEventHandler @Autowired constructor(socketIOServer: SocketIOServer
     }
 
     private fun getTemperatureTimerTask() =
-            object: TimerTask() {
+            object : TimerTask() {
                 override fun run() {
-                    val dataKitchen = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_KITCHEN))
+                    val dataKitchen = gson.toJson(humiTempService.getDataFromSensor(DS18B20Type.SENSOR_KITCHEN))
                     namespace.broadcastOperations.sendEvent(TEMP_HUM_KITCHEN_EVENT, dataKitchen)
 
-                    val dataBedroom = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_BEDROOM))
+                    val dataBedroom = gson.toJson(humiTempService.getDataFromSensor(DS18B20Type.SENSOR_BEDROOM))
                     namespace.broadcastOperations.sendEvent(TEMP_HUM_BEDROOM_EVENT, dataBedroom)
 
-                    val dataLivingRoom = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_LIVING_ROOM))
+                    val dataLivingRoom = gson.toJson(humiTempService.getDataFromSensor(DS18B20Type.SENSOR_LIVING_ROOM))
                     namespace.broadcastOperations.sendEvent(TEMP_HUM_LIVING_ROOM_EVENT, dataLivingRoom)
 
-                    val dataOutdoor = gson.toJson(humiTempService.getDataFromSensor(DHT22Type.SENSOR_OUTDOOR))
+                    val dataOutdoor = gson.toJson(humiTempService.getDataFromSensor(DS18B20Type.SENSOR_OUTDOOR))
                     namespace.broadcastOperations.sendEvent(TEMP_HUM_OUTDOOR_EVENT, dataOutdoor)
                 }
             }

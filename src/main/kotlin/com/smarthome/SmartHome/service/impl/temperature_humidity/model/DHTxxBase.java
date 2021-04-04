@@ -3,6 +3,7 @@ package com.smarthome.SmartHome.service.impl.temperature_humidity.model;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.wiringpi.Gpio;
 
+@Deprecated
 public abstract class DHTxxBase implements DHTxx {
   private static final int DHT_MAXCOUNT = 32000;
   private static final int DHT_PULSES = 41;

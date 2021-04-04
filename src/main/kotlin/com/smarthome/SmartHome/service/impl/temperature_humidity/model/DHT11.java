@@ -3,6 +3,7 @@ package com.smarthome.SmartHome.service.impl.temperature_humidity.model;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.wiringpi.Gpio;
 
+@Deprecated
 public class DHT11 extends DHTxxBase {
 
   private static final int DHT_WAIT_INTERVAL = 2000;

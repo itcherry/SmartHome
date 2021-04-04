@@ -1,5 +1,6 @@
 package com.smarthome.SmartHome.service.impl.temperature_humidity.model;
 
+@Deprecated
 public class DhtData {
   private double temperature;
   private double humidity;

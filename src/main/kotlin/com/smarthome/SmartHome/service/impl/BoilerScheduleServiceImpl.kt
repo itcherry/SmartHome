@@ -122,13 +122,20 @@ class BoilerScheduleServiceImpl @Autowired constructor(
                     log.info("Boiler disabled")
                     pinService.setMultipurposeSensor(SensorToPin.BOILER_OUTPUT, false)
                 } else {
-                    boilerSchedule.forEachIndexed { index, timeRange ->
-                        val startTime = if(timeRange.startTime == 0) 1 else timeRange.startTime
-                        val endTime = if(timeRange.endTime == 24*60) 24*60 - 1 else timeRange.endTime
 
+                    // Normalize schedule
+                    val endWith24 = boilerSchedule.firstOrNull { it.endTime == 24*60 }
+                    val startWith0 = boilerSchedule.firstOrNull { it.startTime == 0 }
+                    val newSchedule = if(endWith24 != null && startWith0 != null) {
+                        boilerSchedule.filter { it != endWith24 && it != startWith0 }.plus(TimeRange(endWith24.startTime, startWith0.endTime))
+                    } else {
+                        boilerSchedule
+                    }
+
+                    newSchedule.sortedBy { it.startTime }.forEachIndexed { index, timeRange ->
                         timers.addAll(listOf(
-                                getTimerWithMinuteScheduledEveryDay(index, startTime, true),
-                                getTimerWithMinuteScheduledEveryDay(index, endTime, false)
+                                getTimerWithMinuteScheduledEveryDay(index, timeRange.startTime, true),
+                                getTimerWithMinuteScheduledEveryDay(index, timeRange.endTime, false)
                         ))
                     }
                 }
@@ -146,7 +153,7 @@ class BoilerScheduleServiceImpl @Autowired constructor(
         today[Calendar.SECOND] = 0
 
         return Timer("BoilerSchedule$index.enable:$doEnable").apply {
-            schedule(
+            scheduleAtFixedRate(
                     getBoilerEnableDisableTimerTask(doEnable),
                     today.time, TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)
             )
