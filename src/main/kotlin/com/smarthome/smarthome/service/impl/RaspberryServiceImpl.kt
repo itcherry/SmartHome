@@ -51,7 +51,7 @@ open class RaspberryServiceImpl @Autowired constructor(
     /* Light */
     @Transactional
     override fun pulseLightState(place: SensorToPin) {
-        val previousState = getLightState(place)
+        val previousState = getLightState(place.getLightInputFromOutput())
         pinService.pulseMultipurposeSensor(place)
         storeToDb(place, !previousState)
     }

@@ -16,5 +16,15 @@ enum class SensorToPin(val pin: Pin, val direction: PinDirection) {
     AQUARIUM_OUTPUT(Pin.GPIO_24, PinDirection.MULTIPURPOSE),
     NEPTUN_INPUT(Pin.GPIO_05, PinDirection.IN),
     SECURITY_INPUT(Pin.GPIO_11, PinDirection.IN),
-    FIRE_INPUT(Pin.GPIO_09, PinDirection.IN)
+    FIRE_INPUT(Pin.GPIO_09, PinDirection.IN);
+
+
+    fun getLightInputFromOutput() = when(this){
+        CORRIDOR_LIGHT_OUTPUT -> CORRIDOR_LIGHT_INPUT
+        KITCHEN_LIGHT_OUTPUT -> KITCHEN_LIGHT_INPUT
+        LIVING_ROOM_LIGHT_OUTPUT -> LIVING_ROOM_LIGHT_INPUT
+        BEDROOM_LIGHT_OUTPUT -> BEDROOM_LIGHT_INPUT
+        else -> this
+    }
+
 }
