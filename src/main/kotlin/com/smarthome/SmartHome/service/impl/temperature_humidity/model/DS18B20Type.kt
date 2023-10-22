@@ -1,4 +1,4 @@
-package com.smarthome.SmartHome.service.impl.temperature_humidity.model
+package com.smarthome.smarthome.service.impl.temperature_humidity.model
 
 
 
